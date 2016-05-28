@@ -9,7 +9,7 @@ namespace _8zip
 {
     class ZipWrapper
     {
-        public void getData(InputData inputs)
+        public void RunMethods(InputData inputs)
         {
             inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
             inputs.Archive.CreateEntry(inputs.EntryName, inputs.Compresion);
