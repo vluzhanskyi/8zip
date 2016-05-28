@@ -9,12 +9,14 @@ namespace _8zip
 {
     class ZipWrapper
     {
-        class InputData
+        public void getData(InputData inputs)
         {
-            string SourcePath { get; set; }
-            string ZipDestinatonPath { get; set; }
-            GZipStream ZipStream;
-            ZipArchive Archive;
+            inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
+            inputs.Archive.CreateEntry(inputs.EntryName, inputs.Compresion);
+            inputs.Archive.ExtractToDirectory(inputs.ExtractPath);
+            
         }
+        
+        
     }
 }

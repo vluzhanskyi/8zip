@@ -9,9 +9,11 @@ namespace _8zip
 {
     class InputData
     {
-        string SourcePath { get; set; }
-        string ZipDestinatonPath { get; set; }
-        GZipStream ZipStream;
-        ZipArchive Archive;
+        public string SourcePath { get; set; }
+        public string ZipPath { get; set; }
+        public string EntryName { get; set; }
+        public string ExtractPath { get; set; }
+        public ZipArchive Archive;
+        public CompressionLevel Compresion { get; set; }
     }
 }
