@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using System.Windows.Forms;
 
 namespace _8zip
 {
@@ -15,5 +16,6 @@ namespace _8zip
         public string ExtractPath { get; set; }
         public ZipArchive Archive;
         public CompressionLevel Compresion { get; set; }
+
     }
 }
