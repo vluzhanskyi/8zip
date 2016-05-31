@@ -10,31 +10,37 @@ namespace _8zip
 {
     public class InputData
     {
+
         public string[] SourcePath { get; set; }
+        public string[] SourceFoldersPath { get; set; }
         public string ZipPath { get; set; }
-        EightZip Form = new EightZip();
-        // public string EntryName { get; set; }
-        // public string ExtractPath { get; set; }
+        public string UnzipPath { get; set; }
+        public ZipArchive Destination { get; set; }
+           
         public CompressionLevel Compresion { get; set; }
 
-        public void GetCompressLevel()
+        public CompressionLevel GetCompressLevel(EightZip form)
         {
-            if (Form.ComprLevelcomboBox.SelectedIndex == 0)
+            if (form.ComprLevelcomboBox.SelectedIndex == 0)
                 Compresion = CompressionLevel.Optimal;
-            if (Form.ComprLevelcomboBox.SelectedIndex == 1)
+            if (form.ComprLevelcomboBox.SelectedIndex == 1)
                 Compresion = CompressionLevel.Fastest;
-            if (Form.ComprLevelcomboBox.SelectedIndex == 2)
+            if (form.ComprLevelcomboBox.SelectedIndex == 2)
                 Compresion = CompressionLevel.NoCompression;
+            return Compresion;
         }
 
-        public void GetZipPath()
+        public string GetZipPath(EightZip form)
         {
-            ZipPath = Form.DestinationTextBox.Text;
+            ZipPath = form.DestinationTextBox.Text;
+            return ZipPath;
         }
 
-        public void GetFilesToArchive()
+        public string[] GetFilesToArchive(EightZip form)
         {
-            SourcePath = Form.SourceTextBox.Lines;
+            SourcePath = new string[form.SourceTextBox.Lines.Length];
+            SourcePath = form.SourceTextBox.Lines;
+            return SourcePath;
         }
     }
 
