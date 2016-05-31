@@ -8,33 +8,33 @@ using System.Windows.Forms;
 
 namespace _8zip
 {
-    public class InputData : EightZip
+    public class InputData
     {
         public string[] SourcePath { get; set; }
         public string ZipPath { get; set; }
-       // public string EntryName { get; set; }
-       // public string ExtractPath { get; set; }
-        
+        // public string EntryName { get; set; }
+        // public string ExtractPath { get; set; }
+
         public CompressionLevel Compresion { get; set; }
 
         public void GetCompressLevel()
         {
-            if (ComprLevelcomboBox.SelectedIndex == 0)
+            if (EightZip.ComprLevelcomboBox.SelectedIndex == 0)
                 Compresion = CompressionLevel.Optimal;
-            if (ComprLevelcomboBox.SelectedIndex == 1)
+            if (EightZip.ComprLevelcomboBox.SelectedIndex == 1)
                 Compresion = CompressionLevel.Fastest;
-            if (ComprLevelcomboBox.SelectedIndex == 2)
-                Compresion = CompressionLevel.NoCompression;  
+            if (EightZip.ComprLevelcomboBox.SelectedIndex == 2)
+                Compresion = CompressionLevel.NoCompression;
         }
 
         public void GetZipPath()
-        {          
-            ZipPath = DestinationTextBox.Text;
+        {
+            ZipPath = EightZip.DestinationTextBox.Text;
         }
 
         public void GetFilesToArchive()
         {
-            SourcePath = SourceTextBox.Lines;
+            SourcePath = EightZip.SourceTextBox.Lines;
         }
     }
 
