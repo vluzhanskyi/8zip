@@ -16,7 +16,11 @@ namespace _8zip
             List<int> lstData = new List<int>() {1, 2, 3, 4, 5};
             lstData.ForEach(item => item++);
 
-           // ZipFile.CreateFromDirectory(inputs.);
+            foreach (string t in inputs.SourcePath)
+            {
+                ZipFile.CreateFromDirectory(t, inputs.ZipPath, inputs.Compresion, false);
+            }
+
 
             /* inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
             inputs.Archive.CreateEntry(inputs.EntryName, inputs.Compresion);
