@@ -39,7 +39,7 @@ namespace _8zip
         private void button1_Click(object sender, EventArgs e)
         {
             int size = 1;
-            string[] files = new string[size]; 
+            
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open File To Archive";
             fDialog.InitialDirectory = @"C:\";
@@ -48,15 +48,12 @@ namespace _8zip
             if (result == DialogResult.OK) // Test result.
             {
                 for (int i = 0; i < fDialog.FileNames.Length; i++)
-                    size++;
-
-                if (files != null)
-                    SourceTextBox.Text = String.Join(", ", fDialog.SafeFileNames);
-                else
-                    MessageBox.Show("Chose file to Archive");
-                files = fDialog.FileNames;
+                    size++; 
             }
+            var files = fDialog.FileNames;
             SourceTextBox.Lines = files;
+            SourceTextBox.Text = string.Join(", ", fDialog.SafeFileNames);
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
