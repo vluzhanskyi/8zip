@@ -35,6 +35,8 @@
             this.SourceLabel = new System.Windows.Forms.Label();
             this.Destination = new System.Windows.Forms.Label();
             this.ArchiveButton = new System.Windows.Forms.Button();
+            this.ComprLevelcomboBox = new System.Windows.Forms.ComboBox();
+            this.CompressionLevel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BrowseButton1
@@ -59,18 +61,22 @@
             // 
             // SourceTextBox
             // 
+            this.SourceTextBox.ForeColor = System.Drawing.SystemColors.GrayText;
             this.SourceTextBox.Location = new System.Drawing.Point(12, 54);
             this.SourceTextBox.Name = "SourceTextBox";
             this.SourceTextBox.Size = new System.Drawing.Size(179, 20);
             this.SourceTextBox.TabIndex = 2;
+            this.SourceTextBox.Text = "Define path to files";
             this.SourceTextBox.TextChanged += new System.EventHandler(this.SourceTextBox_TextChanged);
             // 
             // DestinationTextBox
             // 
+            this.DestinationTextBox.ForeColor = System.Drawing.SystemColors.GrayText;
             this.DestinationTextBox.Location = new System.Drawing.Point(12, 113);
             this.DestinationTextBox.Name = "DestinationTextBox";
             this.DestinationTextBox.Size = new System.Drawing.Size(178, 20);
             this.DestinationTextBox.TabIndex = 3;
+            this.DestinationTextBox.Text = "Define path to save zip file";
             this.DestinationTextBox.TextChanged += new System.EventHandler(this.DestinationTextBox_TextChanged);
             // 
             // SourceLabel
@@ -102,11 +108,35 @@
             this.ArchiveButton.UseVisualStyleBackColor = true;
             this.ArchiveButton.Click += new System.EventHandler(this.ArchiveButton_Click);
             // 
+            // ComprLevelcomboBox
+            // 
+            this.ComprLevelcomboBox.AllowDrop = true;
+            this.ComprLevelcomboBox.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.ComprLevelcomboBox.FormattingEnabled = true;
+            this.ComprLevelcomboBox.Location = new System.Drawing.Point(12, 209);
+            this.ComprLevelcomboBox.MaxDropDownItems = 3;
+            this.ComprLevelcomboBox.Name = "ComprLevelcomboBox";
+            this.ComprLevelcomboBox.Size = new System.Drawing.Size(121, 21);
+            this.ComprLevelcomboBox.TabIndex = 7;
+            this.ComprLevelcomboBox.Text = "Compression level";
+            this.ComprLevelcomboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // CompressionLevel
+            // 
+            this.CompressionLevel.AutoSize = true;
+            this.CompressionLevel.Location = new System.Drawing.Point(12, 184);
+            this.CompressionLevel.Name = "CompressionLevel";
+            this.CompressionLevel.Size = new System.Drawing.Size(99, 13);
+            this.CompressionLevel.TabIndex = 8;
+            this.CompressionLevel.Text = "Compression Level:";
+            // 
             // EightZip
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.CompressionLevel);
+            this.Controls.Add(this.ComprLevelcomboBox);
             this.Controls.Add(this.ArchiveButton);
             this.Controls.Add(this.Destination);
             this.Controls.Add(this.SourceLabel);
@@ -126,11 +156,13 @@
 
         private System.Windows.Forms.Button BrowseButton1;
         private System.Windows.Forms.Button Browsebutton2;
-        private System.Windows.Forms.TextBox SourceTextBox;
-        private System.Windows.Forms.TextBox DestinationTextBox;
+        protected System.Windows.Forms.TextBox SourceTextBox;
+        protected System.Windows.Forms.TextBox DestinationTextBox;
         private System.Windows.Forms.Label SourceLabel;
         private System.Windows.Forms.Label Destination;
         private System.Windows.Forms.Button ArchiveButton;
+        protected System.Windows.Forms.ComboBox ComprLevelcomboBox;
+        private System.Windows.Forms.Label CompressionLevel;
     }
 }
 

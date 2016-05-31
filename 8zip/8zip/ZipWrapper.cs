@@ -9,12 +9,17 @@ namespace _8zip
 {
     class ZipWrapper
     {
+       // public ZipArchive Archive = new ZipArchive();
+        
         public void RunMethods(InputData inputs)
         {
-            inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
+            List<int> lstData = new List<int>() {1, 2, 3, 4, 5};
+            lstData.ForEach(item => item++);
+
+            /* inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
             inputs.Archive.CreateEntry(inputs.EntryName, inputs.Compresion);
             inputs.Archive.ExtractToDirectory(inputs.ExtractPath);
-            
+            */
         }
         
         
