@@ -12,29 +12,29 @@ namespace _8zip
     {
         public string[] SourcePath { get; set; }
         public string ZipPath { get; set; }
+        EightZip Form = new EightZip();
         // public string EntryName { get; set; }
         // public string ExtractPath { get; set; }
-
         public CompressionLevel Compresion { get; set; }
 
         public void GetCompressLevel()
         {
-            if (EightZip.ComprLevelcomboBox.SelectedIndex == 0)
+            if (Form.ComprLevelcomboBox.SelectedIndex == 0)
                 Compresion = CompressionLevel.Optimal;
-            if (EightZip.ComprLevelcomboBox.SelectedIndex == 1)
+            if (Form.ComprLevelcomboBox.SelectedIndex == 1)
                 Compresion = CompressionLevel.Fastest;
-            if (EightZip.ComprLevelcomboBox.SelectedIndex == 2)
+            if (Form.ComprLevelcomboBox.SelectedIndex == 2)
                 Compresion = CompressionLevel.NoCompression;
         }
 
         public void GetZipPath()
         {
-            ZipPath = EightZip.DestinationTextBox.Text;
+            ZipPath = Form.DestinationTextBox.Text;
         }
 
         public void GetFilesToArchive()
         {
-            SourcePath = EightZip.SourceTextBox.Lines;
+            SourcePath = Form.SourceTextBox.Lines;
         }
     }
 
