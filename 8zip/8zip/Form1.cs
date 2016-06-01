@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows.Forms.VisualStyles;
-
 
 namespace _8zip
 {
@@ -129,7 +120,7 @@ namespace _8zip
             string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             foreach (string file in files)
             {
-                this.SourceTextBox.Text = file;
+                SourceTextBox.Text = file;
             }
             SaveFileDialog saveArchive = new SaveFileDialog();
             InputData inputs = new InputData();

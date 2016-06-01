@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using Ionic.Zip;
 
 namespace _8zip
@@ -64,6 +63,24 @@ namespace _8zip
             }
 
             return new Exception("Please define data correctly!");
+        }
+
+        public Exception ExtractFilesFromZip(string zipPath, string pathToExtract)
+        {
+            try
+            {
+                using (ZipFile zip = ZipFile.Read(zipPath))
+                {
+                    zip.ExtractAll(pathToExtract);
+                }
+                return null;
+            }
+            catch (Exception exception)
+            {
+                return exception;
+            }
+            
+ //           return new Exception("Invalid extracting path or archive defined");
         }
 
         public void AddFoldersToZip(string source, string zipPath)
