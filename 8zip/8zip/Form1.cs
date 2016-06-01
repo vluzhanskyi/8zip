@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.Compression;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms.VisualStyles;
@@ -16,30 +15,31 @@ namespace _8zip
 {
     public partial class EightZip : Form
     {
+        
+
         public EightZip()
         {
             InitializeComponent();
-           
-           
+            
         }
 
         public void EightZip_Load(object sender, EventArgs e)
         {
             Dictionary<int, string> ComboSource = new Dictionary<int, string>
             {
-                {0, "Optimal"},
-                {1, "Fastest"},
-                {2, "No Compression"}
+                {0, "No Compression"},
+                {1, "Deflate"},
+                {2, "BZip2"}
             };
             ComprLevelcomboBox.DataSource = new BindingSource(ComboSource, null);
             ComprLevelcomboBox.ValueMember = "Key";
-            ComprLevelcomboBox.DisplayMember = "Value";
+            ComprLevelcomboBox.DisplayMember = "Value";          
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             int size = 1;
-            
+            InputData _inputs = new InputData();
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open File To Archive";
             fDialog.InitialDirectory = @"C:\";
@@ -47,24 +47,20 @@ namespace _8zip
             DialogResult result = fDialog.ShowDialog(); // Show the dialog.
             if (result == DialogResult.OK) // Test result.
             {
-                for (int i = 0; i < fDialog.FileNames.Length; i++)
-                    size++; 
-            }
-            var files = fDialog.FileNames;
-            SourceTextBox.Lines = files;
+                for (int i = 0; i < fDialog.FileNames.Length; i++)                    
+                    size++;                
+            }          
             SourceTextBox.Text = string.Join(", ", fDialog.SafeFileNames);
-            
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
+            SourceTextBox.Lines = fDialog.FileNames;
+            _inputs.GetFilesToArchive(this);
         }
 
         private void Browsebutton2_Click(object sender, EventArgs e)
         {           
             SaveFileDialog SaveArchive = new SaveFileDialog();
+            InputData _inputs = new InputData();
             SaveArchive.Title = "Save Archive As: ";
+            SaveArchive.Filter = "Zip files (*.zip)|*.zip";
             DialogResult result = SaveArchive.ShowDialog(); // Show the dialog.
             SaveArchive.RestoreDirectory = true;
 
@@ -73,11 +69,10 @@ namespace _8zip
                 if (SaveArchive.CheckFileExists)
                 {
                     MessageBoxButtons buttons = new MessageBoxButtons();
-                    MessageBox.Show("File alredy exists", "Rewrite?", buttons);
-                }  
-    
-                string file = SaveArchive.FileName;
-                DestinationTextBox.Text = file;
+                    MessageBox.Show("File alredy exists", "Update?", buttons);
+                }
+                DestinationTextBox.Text = SaveArchive.FileName;
+                _inputs.GetZipPath(this);
             }
             
         }
@@ -85,28 +80,35 @@ namespace _8zip
         private void SourceTextBox_TextChanged(object sender, EventArgs e)
         {
             InputData _inputs = new InputData();
-            _inputs.GetFilesToArchive();
+            if (_inputs.SourcePath != null)
+                _inputs.GetFilesToArchive(this);
         }
 
         private void DestinationTextBox_TextChanged(object sender, EventArgs e)
         {
             InputData _inputs = new InputData();
-            _inputs.GetZipPath();
+            if (_inputs.ZipPath != null)
+                _inputs.GetZipPath(this);
         }
 
         private void ArchiveButton_Click(object sender, EventArgs e)
         {
-
+            InputData _inputs = new InputData();
+            ZipWrapper ArchiveMethods = new ZipWrapper();
+            _inputs.SourcePath = _inputs.GetFilesToArchive(this);
+            _inputs.ZipPath = _inputs.GetZipPath(this);
+            _inputs.Compresion = _inputs.GetCompressLevel(this);
+            ArchiveMethods.AddFilesToZip(_inputs.SourcePath, _inputs.ZipPath, _inputs.Compresion);
+            MessageBox.Show("Done!");
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InputData _inputs = new InputData();
-            int key = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Key;
-            string value = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Value;
-            _inputs.GetCompressLevel();
-
-
+            var key = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Key;
+            var value = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Value;
+            _inputs.GetCompressLevel(this);
+            
         }
     }
 

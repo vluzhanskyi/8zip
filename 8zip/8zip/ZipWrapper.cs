@@ -4,12 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO.Compression;
+using Ionic.Zip;
 
 namespace _8zip
 {
-    public delegate void fireDelegate(ZipWrapper methodsZipWrapper, InputData input);
-
     public class ZipWrapper
     {
        // public ZipArchive Archive = new ZipArchive();
@@ -25,7 +23,61 @@ namespace _8zip
             */
         }
 
-        public void CreateFromDirectory(InputData inputs)
+
+        public void AddFilesToZip(string[] files, string zipPath, CompressionMethod compressLevel)
+        {
+            ;
+            
+            if (!File.Exists(zipPath))
+            {
+                using (ZipFile zip = new ZipFile())
+                {
+                    zip.CompressionMethod = compressLevel;
+                    zip.AddFiles(files);
+                    zip.Save(zipPath);
+                }
+            }
+            else
+            {
+                using (ZipFile zip = ZipFile.Read(zipPath))
+                {
+                                    
+                    try
+                    {
+                        zip.AddFiles(files);
+                    }
+                    catch (ArgumentException)
+                    {
+                        
+                    }
+
+                    zip.Save(zipPath);
+                }
+            }
+           
+        }
+
+        public void AddFoldersToZip(string source, string zipPath)
+        {
+            if (!File.Exists(zipPath))
+            {
+                using (ZipFile zip = new ZipFile())
+                {
+                    zip.AddDirectory(source);
+                    zip.Save(zipPath);
+                }
+            }
+            else
+            {
+                using (ZipFile zip = ZipFile.Read(zipPath))
+                {
+                    zip.AddDirectory(source);
+                    zip.Save(zipPath);
+                }
+            }
+        }
+
+    /*    public void CreateFromDirectory(InputData inputs)
         {
             
             foreach (string t in inputs.SourceFoldersPath)
@@ -54,6 +106,6 @@ namespace _8zip
                 ZipFile.ExtractToDirectory(inputs.ZipPath, inputs.UnzipPath); 
             }
         }
-
+*/
     }
 }

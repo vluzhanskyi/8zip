@@ -87,7 +87,6 @@
             this.SourceLabel.Size = new System.Drawing.Size(94, 13);
             this.SourceLabel.TabIndex = 4;
             this.SourceLabel.Text = "Source file/Folder:";
-            this.SourceLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // Destination
             // 

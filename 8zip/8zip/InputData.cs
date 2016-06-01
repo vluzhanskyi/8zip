@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO.Compression;
+using Ionic.Zip;
 using System.Windows.Forms;
+using System.IO.Compression;
 
 namespace _8zip
 {
@@ -17,16 +18,16 @@ namespace _8zip
         public string UnzipPath { get; set; }
         public ZipArchive Destination { get; set; }
            
-        public CompressionLevel Compresion { get; set; }
+        public CompressionMethod Compresion { get; set; }
 
-        public CompressionLevel GetCompressLevel(EightZip form)
+        public CompressionMethod GetCompressLevel(EightZip form)
         {
             if (form.ComprLevelcomboBox.SelectedIndex == 0)
-                Compresion = CompressionLevel.Optimal;
+                Compresion = CompressionMethod.None;
             if (form.ComprLevelcomboBox.SelectedIndex == 1)
-                Compresion = CompressionLevel.Fastest;
+                Compresion = CompressionMethod.Deflate;
             if (form.ComprLevelcomboBox.SelectedIndex == 2)
-                Compresion = CompressionLevel.NoCompression;
+                Compresion = CompressionMethod.BZip2;
             return Compresion;
         }
 
