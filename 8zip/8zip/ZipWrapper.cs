@@ -1,59 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 using Ionic.Zip;
 
 namespace _8zip
 {
     public class ZipWrapper
     {
-       // public ZipArchive Archive = new ZipArchive();
-        
-        public void RunMethods(InputData inputs)
-        {
-            List<int> lstData = new List<int>() {1, 2, 3, 4, 5};
-            lstData.ForEach(item => item++);
 
-           /* inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
-            inputs.Archive.CreateEntry(inputs.EntryName, inputs.Compresion);
-            inputs.Archive.ExtractToDirectory(inputs.ExtractPath);
-            */
-        }
-
-
-        public void AddFilesToZip(string[] files, string zipPath, CompressionMethod compressLevel)
-        {
-            ;
-            
-            if (!File.Exists(zipPath))
+        /*    public void RunMethods(InputData inputs)
             {
-                using (ZipFile zip = new ZipFile())
+                List<int> lstData = new List<int>() {1, 2, 3, 4, 5};
+                lstData.ForEach(item => item++);
+
+                inputs.Archive.CreateEntryFromFile(inputs.SourcePath, inputs.EntryName, inputs.Compresion);
+                inputs.Archive.CreateEntry(inputs.EntryName, inputs.Compresion);
+                inputs.Archive.ExtractToDirectory(inputs.ExtractPath);
+           
+            }
+             */
+
+        public bool AddFilesToZip(string[] files, string zipPath, CompressionMethod compressLevel)
+        {
+            if (files[0] != "Define path to files" && zipPath != "Define path to save zip file")
+            {
+                if (!File.Exists(zipPath))
                 {
-                    zip.CompressionMethod = compressLevel;
-                    zip.AddFiles(files);
-                    zip.Save(zipPath);
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        zip.CompressionMethod = compressLevel;
+                        zip.AddFiles(files);
+                        zip.Save(zipPath);
+                    }
                 }
+                else
+                {
+                    using (ZipFile zip = ZipFile.Read(zipPath))
+                    {
+
+                        try
+                        {
+                            zip.AddFiles(files);
+                        }
+                        catch (ArgumentException)
+                        {
+                            MessageBox.Show(@"Fail to add File");
+                        }
+
+                        zip.Save(zipPath);
+                    }
+                }
+                return true;
             }
             else
             {
-                using (ZipFile zip = ZipFile.Read(zipPath))
-                {
-                                    
-                    try
-                    {
-                        zip.AddFiles(files);
-                    }
-                    catch (ArgumentException)
-                    {
-                        
-                    }
-
-                    zip.Save(zipPath);
-                }
-            }
+                MessageBox.Show(@"Fail to add File. Please define Source and Archive path");
+                return false;
+            }       
            
         }
 

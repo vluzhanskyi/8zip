@@ -88,15 +88,16 @@
             this.SourceLabel.Size = new System.Drawing.Size(94, 13);
             this.SourceLabel.TabIndex = 4;
             this.SourceLabel.Text = "Source file/Folder:";
+            this.SourceLabel.Click += new System.EventHandler(this.SourceLabel_Click);
             // 
             // Destination
             // 
             this.Destination.AutoSize = true;
             this.Destination.Location = new System.Drawing.Point(12, 94);
             this.Destination.Name = "Destination";
-            this.Destination.Size = new System.Drawing.Size(87, 13);
+            this.Destination.Size = new System.Drawing.Size(70, 13);
             this.Destination.TabIndex = 5;
-            this.Destination.Text = "Destination path:";
+            this.Destination.Text = "Archive path:";
             // 
             // ArchiveButton
             // 
