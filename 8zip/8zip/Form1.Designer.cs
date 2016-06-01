@@ -37,6 +37,7 @@
             this.ArchiveButton = new System.Windows.Forms.Button();
             this.ComprLevelcomboBox = new System.Windows.Forms.ComboBox();
             this.CompressionLevel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // BrowseButton1
@@ -129,6 +130,16 @@
             this.CompressionLevel.TabIndex = 8;
             this.CompressionLevel.Text = "Compression Level:";
             // 
+            // panel1
+            // 
+            this.panel1.AllowDrop = true;
+            this.panel1.Location = new System.Drawing.Point(12, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(260, 243);
+            this.panel1.TabIndex = 9;
+            this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
+            this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel1_DragEnter);
+            // 
             // EightZip
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,6 +154,7 @@
             this.Controls.Add(this.SourceTextBox);
             this.Controls.Add(this.Browsebutton2);
             this.Controls.Add(this.BrowseButton1);
+            this.Controls.Add(this.panel1);
             this.Name = "EightZip";
             this.Text = "8Zip";
             this.Load += new System.EventHandler(this.EightZip_Load);
@@ -162,6 +174,7 @@
         private System.Windows.Forms.Button ArchiveButton;
         protected internal System.Windows.Forms.ComboBox ComprLevelcomboBox;
         private System.Windows.Forms.Label CompressionLevel;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
