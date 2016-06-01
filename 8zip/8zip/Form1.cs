@@ -126,6 +126,27 @@ namespace _8zip
         private void panel1_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            foreach (string file in files)
+            {
+                this.SourceTextBox.Text = file;
+            }
+            SaveFileDialog saveArchive = new SaveFileDialog();
+            InputData inputs = new InputData();
+            saveArchive.Title = @"Save Archive As: ";
+            saveArchive.Filter = @"Zip files (*.zip)|*.zip";
+            DialogResult result = saveArchive.ShowDialog(); // Show the dialog.
+            saveArchive.RestoreDirectory = true;
+
+            if (result == DialogResult.OK) // Test result.
+            {
+                if (saveArchive.CheckFileExists)
+                {
+                    MessageBoxButtons buttons = new MessageBoxButtons();
+                    MessageBox.Show(@"File alredy exists", @"Update?", buttons);
+                }
+                DestinationTextBox.Text = saveArchive.FileName;
+                inputs.GetZipPath(this);
+            }
         }
     }
 
