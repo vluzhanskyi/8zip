@@ -66,11 +66,12 @@ namespace _8zip
 
             if (result == DialogResult.OK) // Test result.
             {
-                if (saveArchive.CheckFileExists)
+              /*  if (saveArchive.CheckFileExists)
                 {
                     MessageBoxButtons buttons = new MessageBoxButtons();
                     MessageBox.Show(@"File alredy exists", @"Update?", buttons);
                 }
+              */
                 DestinationTextBox.Text = saveArchive.FileName;
                 inputs.GetZipPath(this);
             }
@@ -98,10 +99,10 @@ namespace _8zip
             inputs.SourcePath = inputs.GetFilesToArchive(this);
             inputs.ZipPath = inputs.GetZipPath(this);
             inputs.Compresion = inputs.GetCompressLevel(this);
-
-            MessageBox.Show(archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion)
-                ? @"Done :-)"
-                : @"Fail!");
+            Exception exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
+            MessageBox.Show(exception == null
+                ? @"Success :-)"
+                : @"ERROR!" + " " + exception.Message);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

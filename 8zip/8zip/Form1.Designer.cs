@@ -156,6 +156,7 @@
             this.Controls.Add(this.Browsebutton2);
             this.Controls.Add(this.BrowseButton1);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "EightZip";
             this.Text = "8Zip";
             this.Load += new System.EventHandler(this.EightZip_Load);
