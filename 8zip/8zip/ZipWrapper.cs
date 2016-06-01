@@ -20,43 +20,52 @@ namespace _8zip
             }
              */
 
-        public bool AddFilesToZip(string[] files, string zipPath, CompressionMethod compressLevel)
+        public Exception AddFilesToZip(string[] files, string zipPath, CompressionMethod compressLevel)
         {
             if (files[0] != "Define path to files" && zipPath != "Define path to save zip file")
             {
-                if (!File.Exists(zipPath))
-                {
-                    using (ZipFile zip = new ZipFile())
-                    {
-                        zip.CompressionMethod = compressLevel;
-                        zip.AddFiles(files);
-                        zip.Save(zipPath);
-                    }
-                }
-                else
-                {
-                    using (ZipFile zip = ZipFile.Read(zipPath))
-                    {
 
-                        try
+                try
+                {
+                    if (!File.Exists(zipPath))
+                    {
+                        using (ZipFile zip = new ZipFile())
                         {
-                            zip.AddFiles(files);
+                            zip.CompressionMethod = compressLevel;
+                            zip.AddFiles(files, "");
+                            zip.Save(zipPath);
                         }
-                        catch (ArgumentException)
-                        {
-                            MessageBox.Show(@"Fail to add File");
-                        }
-
-                        zip.Save(zipPath);
                     }
+
+                    else
+
+                    {
+                        using (ZipFile zip = ZipFile.Read(zipPath))
+                        {
+
+                            try
+                            {
+                                zip.AddFiles(files, "");
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                
+                                return ex;
+                            }
+
+                            zip.Save(zipPath);
+                        }
+                    }
+                    return null;
                 }
-                return true;
+                catch(NullReferenceException ex)
+                {
+                    return ex;
+                }
+                
             }
-            else
-            {
-                MessageBox.Show(@"Fail to add File. Please define Source and Archive path");
-                return false;
-            }       
+
+            return null;
            
         }
 
