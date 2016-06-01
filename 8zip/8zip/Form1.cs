@@ -125,13 +125,7 @@ namespace _8zip
 
         private void panel1_DragDrop(object sender, DragEventArgs e)
         {
-            List<string> files = (List<string>) e.Data.GetData(DataFormats.FileDrop, false);
-            foreach (string file in files)
-            {
-                List<string> list = new List<string>();
-                list.Add(file);
-             
-            }
+            string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
         }
     }
 
