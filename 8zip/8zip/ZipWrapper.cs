@@ -22,10 +22,9 @@ namespace _8zip
 
         public Exception AddFilesToZip(string[] files, string zipPath, CompressionMethod compressLevel)
         {
-            if (files[0] != "Define path to files" && zipPath != "Define path to save zip file")
+            try
             {
-
-                try
+                if (files[0] != "Define path to files" && zipPath != "Define path to save zip file")
                 {
                     if (!File.Exists(zipPath))
                     {
@@ -49,7 +48,7 @@ namespace _8zip
                             }
                             catch (ArgumentException ex)
                             {
-                                
+
                                 return ex;
                             }
 
@@ -58,15 +57,13 @@ namespace _8zip
                     }
                     return null;
                 }
-                catch(NullReferenceException ex)
-                {
-                    return ex;
-                }
-                
+            }
+            catch (Exception ex)
+            {
+                return ex;
             }
 
-            return null;
-           
+            return new Exception("Please define data correctly!");
         }
 
         public void AddFoldersToZip(string source, string zipPath)
