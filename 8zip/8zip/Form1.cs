@@ -79,11 +79,9 @@ namespace _8zip
 
             inputs = inputs.ColectData(this, inputs);
 
-            if (ArchivefilesCheckBox.Checked)
+            if (!ExtractZipCheckBox.Checked)
                 exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
-            if (ArchiveFoldersCheckBox.Checked)
-                exception = archiveMethods.AddFoldersToZip(inputs.SourceFoldersPath, inputs.ZipPath);
-            if (ExtractZipCheckBox.Checked)
+            else 
                 exception = archiveMethods.ExtractFilesFromZip(inputs.ZipPath, inputs.UnzipPath);
             MessageBox.Show(exception == null
                 ? @"Success :-)"
@@ -152,7 +150,7 @@ namespace _8zip
         private void ArchivefilesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (ArchivefilesCheckBox.Checked)
-                UpdateFormEnabledState(true, true, true, true, true, true, false, true, true, false, false);           
+                UpdateFormEnabledState(true, true, true, true, true, true, false, true, true, true, true);           
             else
                 UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);       
         }

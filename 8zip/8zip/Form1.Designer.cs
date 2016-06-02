@@ -37,14 +37,14 @@
             this.ComprLevelcomboBox = new System.Windows.Forms.ComboBox();
             this.CompressionLevel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnOpen = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtPath = new System.Windows.Forms.TextBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.ArchivefilesCheckBox = new System.Windows.Forms.CheckBox();
-            this.ArchiveFoldersCheckBox = new System.Windows.Forms.CheckBox();
-            this.ExtractZipCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtPath = new System.Windows.Forms.TextBox();
+            this.ExtractZipCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ArchiveFoldersCheckBox = new System.Windows.Forms.CheckBox();
+            this.btnOpen = new System.Windows.Forms.Button();
+            this.ArchivefilesCheckBox = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -156,31 +156,27 @@
             this.panel1.Controls.Add(this.ArchiveButton);
             this.panel1.Location = new System.Drawing.Point(12, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(267, 389);
+            this.panel1.Size = new System.Drawing.Size(267, 408);
             this.panel1.TabIndex = 9;
             this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
             this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel1_DragEnter);
-
             // 
-            // btnOpen
+            // webBrowser1
             // 
-            this.btnOpen.Enabled = false;
-            this.btnOpen.Location = new System.Drawing.Point(0, 173);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(87, 23);
-            this.btnOpen.TabIndex = 10;
-            this.btnOpen.Text = "Open Folders";
-            this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            this.webBrowser1.Location = new System.Drawing.Point(0, 202);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(259, 202);
+            this.webBrowser1.TabIndex = 13;
             // 
-            // label1
+            // label2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(87, 178);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Path:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(87, 149);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Path:";
             // 
             // txtPath
             // 
@@ -191,37 +187,6 @@
             this.txtPath.Size = new System.Drawing.Size(139, 20);
             this.txtPath.TabIndex = 12;
             this.txtPath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Location = new System.Drawing.Point(0, 202);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(259, 202);
-            this.webBrowser1.TabIndex = 13;
-            
-            // 
-            // ArchivefilesCheckBox
-            // 
-            this.ArchivefilesCheckBox.AutoSize = true;
-            this.ArchivefilesCheckBox.Location = new System.Drawing.Point(4, 7);
-            this.ArchivefilesCheckBox.Name = "ArchivefilesCheckBox";
-            this.ArchivefilesCheckBox.Size = new System.Drawing.Size(83, 17);
-            this.ArchivefilesCheckBox.TabIndex = 0;
-            this.ArchivefilesCheckBox.Text = "Archive files";
-            this.ArchivefilesCheckBox.UseVisualStyleBackColor = true;
-            this.ArchivefilesCheckBox.CheckedChanged += new System.EventHandler(this.ArchivefilesCheckBox_CheckedChanged);
-            // 
-            // ArchiveFoldersCheckBox
-            // 
-            this.ArchiveFoldersCheckBox.AutoSize = true;
-            this.ArchiveFoldersCheckBox.Location = new System.Drawing.Point(92, 7);
-            this.ArchiveFoldersCheckBox.Name = "ArchiveFoldersCheckBox";
-            this.ArchiveFoldersCheckBox.Size = new System.Drawing.Size(96, 17);
-            this.ArchiveFoldersCheckBox.TabIndex = 1;
-            this.ArchiveFoldersCheckBox.Text = "ArchiveFolders";
-            this.ArchiveFoldersCheckBox.UseVisualStyleBackColor = true;
-            this.ArchiveFoldersCheckBox.CheckedChanged += new System.EventHandler(this.ArchiveFoldersCheckBox_CheckedChanged);
             // 
             // ExtractZipCheckBox
             // 
@@ -234,20 +199,53 @@
             this.ExtractZipCheckBox.UseVisualStyleBackColor = true;
             this.ExtractZipCheckBox.CheckedChanged += new System.EventHandler(this.ExtractZipCheckBox_CheckedChanged);
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(87, 149);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Path:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(87, 178);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Path:";
+            // 
+            // ArchiveFoldersCheckBox
+            // 
+            this.ArchiveFoldersCheckBox.AutoSize = true;
+            this.ArchiveFoldersCheckBox.Location = new System.Drawing.Point(92, 7);
+            this.ArchiveFoldersCheckBox.Name = "ArchiveFoldersCheckBox";
+            this.ArchiveFoldersCheckBox.Size = new System.Drawing.Size(96, 17);
+            this.ArchiveFoldersCheckBox.TabIndex = 1;
+            this.ArchiveFoldersCheckBox.Text = "ArchiveFolders";
+            this.ArchiveFoldersCheckBox.UseVisualStyleBackColor = true;
+            this.ArchiveFoldersCheckBox.CheckedChanged += new System.EventHandler(this.ArchiveFoldersCheckBox_CheckedChanged);
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.Enabled = false;
+            this.btnOpen.Location = new System.Drawing.Point(0, 173);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(87, 23);
+            this.btnOpen.TabIndex = 10;
+            this.btnOpen.Text = "Open Folders";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // ArchivefilesCheckBox
+            // 
+            this.ArchivefilesCheckBox.AutoSize = true;
+            this.ArchivefilesCheckBox.Location = new System.Drawing.Point(4, 7);
+            this.ArchivefilesCheckBox.Name = "ArchivefilesCheckBox";
+            this.ArchivefilesCheckBox.Size = new System.Drawing.Size(83, 17);
+            this.ArchivefilesCheckBox.TabIndex = 0;
+            this.ArchivefilesCheckBox.Text = "Archive files";
+            this.ArchivefilesCheckBox.UseVisualStyleBackColor = true;
+            this.ArchivefilesCheckBox.CheckedChanged += new System.EventHandler(this.ArchivefilesCheckBox_CheckedChanged);
             // 
             // EightZip
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 409);
+            this.ClientSize = new System.Drawing.Size(284, 419);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "EightZip";
