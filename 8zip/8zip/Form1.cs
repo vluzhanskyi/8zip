@@ -140,6 +140,23 @@ namespace _8zip
                 inputs.GetZipPath(this);
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog() {Description = "Select path."})
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    webBrowser1.Url = new Uri(dialog.SelectedPath);
+                    txtPath.Text = dialog.SelectedPath;
+                }
+            }
+        }
     }
 
 }
