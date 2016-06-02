@@ -117,18 +117,22 @@ namespace _8zip
 
         private void panel1_DragDrop(object sender, DragEventArgs e)
         {
+            InputData inputs2 = new InputData();
             string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             foreach (string file in files)
             {
-                SourceTextBox.Text = file;
+                SourceTextBox.Text = string.Join(", ", file);
             }
+            SourceTextBox.Lines = files;
+            inputs2.GetFilesToArchive(this);
+
             SaveFileDialog saveArchive = new SaveFileDialog();
             InputData inputs = new InputData();
             saveArchive.Title = @"Save Archive As: ";
             saveArchive.Filter = @"Zip files (*.zip)|*.zip";
             DialogResult result = saveArchive.ShowDialog(); // Show the dialog.
             saveArchive.RestoreDirectory = true;
-
+            
             if (result == DialogResult.OK) // Test result.
             {
                 if (saveArchive.CheckFileExists)
@@ -156,6 +160,11 @@ namespace _8zip
                     txtPath.Text = dialog.SelectedPath;
                 }
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 
