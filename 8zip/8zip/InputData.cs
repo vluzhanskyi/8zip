@@ -10,11 +10,10 @@ namespace _8zip
         public string[] SourceFoldersPath { get; set; }
         public string ZipPath { get; set; }
         public string UnzipPath { get; set; }
-        public ZipArchive Destination { get; set; }
-           
+ //       public ZipArchive Destination { get; set; }
         public CompressionMethod Compresion { get; set; }
 
-        public CompressionMethod GetCompressLevel(EightZip form)
+        private CompressionMethod GetCompressLevel(EightZip form)
         {
             if (form.ComprLevelcomboBox.SelectedIndex == 0)
                 Compresion = CompressionMethod.None;
@@ -25,26 +24,35 @@ namespace _8zip
             return Compresion;
         }
 
-        public string GetZipPath(EightZip form)
+        private string GetZipPath(EightZip form)
         {
             ZipPath = form.DestinationTextBox.Text;
             return ZipPath;
         }
 
-        public string[] GetFilesToArchive(EightZip form)
+        private string[] GetFilesToArchive(EightZip form)
         {
-            
             SourcePath = new string[form.SourceTextBox.Lines.Length];
             SourcePath = form.SourceTextBox.Lines;
             return SourcePath;
         }
 
-        public InputData ColectData(EightZip formEightZip, InputData inputs)
+        private string[] GetFoldersToArchive(EightZip form)
         {
-            ZipWrapper archiveMethods = new ZipWrapper();
-            inputs.SourcePath = inputs.GetFilesToArchive(formEightZip);
-            inputs.ZipPath = inputs.GetZipPath(formEightZip);
-            inputs.Compresion = inputs.GetCompressLevel(formEightZip);
+            SourceFoldersPath = new string[form.txtPath.Lines.Length];
+            SourceFoldersPath = form.txtPath.Lines;
+            return SourceFoldersPath;
+        }
+
+        public InputData ColectData(EightZip form, InputData inputs)
+        {
+            inputs.SourcePath = inputs.GetFilesToArchive(form);
+            inputs.ZipPath = inputs.GetZipPath(form);
+            inputs.SourceFoldersPath = inputs.GetFoldersToArchive(form);
+            if (SourceFoldersPath.Length > 0)
+                inputs.UnzipPath = inputs.SourceFoldersPath[0];
+            inputs.Compresion = inputs.GetCompressLevel(form);
+
             return inputs;
         }
     }

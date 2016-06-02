@@ -10,8 +10,7 @@ namespace _8zip
 
         public EightZip()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
 
         public void EightZip_Load(object sender, EventArgs e)
@@ -31,11 +30,14 @@ namespace _8zip
         {
             int size = 1;
             InputData inputs = new InputData();
-            OpenFileDialog fDialog = new OpenFileDialog();
-            fDialog.Title = @"Open File To Archive";
-            fDialog.InitialDirectory = @"C:\";
-            fDialog.Multiselect = true;
+            OpenFileDialog fDialog = new OpenFileDialog
+            {
+                Title = @"Open File To Archive",
+                InitialDirectory = @"C:\",
+                Multiselect = true
+            };
             DialogResult result = fDialog.ShowDialog(); // Show the dialog.
+            
             if (result == DialogResult.OK) // Test result.
             {
                 for (int i = 0; i < fDialog.FileNames.Length; i++)                    
@@ -43,7 +45,6 @@ namespace _8zip
             }          
             SourceTextBox.Text = string.Join(", ", fDialog.SafeFileNames);
             SourceTextBox.Lines = fDialog.FileNames;
-            inputs.GetFilesToArchive(this);
         }
 
         private void Browsebutton2_Click(object sender, EventArgs e)
@@ -55,42 +56,35 @@ namespace _8zip
             DialogResult result = saveArchive.ShowDialog(); // Show the dialog.
             saveArchive.RestoreDirectory = true;
 
-            if (result == DialogResult.OK) // Test result.
-            {
-              /*  if (saveArchive.CheckFileExists)
-                {
-                    MessageBoxButtons buttons = new MessageBoxButtons();
-                    MessageBox.Show(@"File alredy exists", @"Update?", buttons);
-                }
-              */
-                DestinationTextBox.Text = saveArchive.FileName;
-                inputs.GetZipPath(this);
-            }
-            
+            if (result != DialogResult.OK) return;
+
+            DestinationTextBox.Text = saveArchive.FileName;;
         }
 
         private void SourceTextBox_TextChanged(object sender, EventArgs e)
         {
-            InputData inputs = new InputData();
-            if (inputs.SourcePath != null)
-                inputs.GetFilesToArchive(this);
+                ArchiveButton.Enabled = true;
         }
 
         private void DestinationTextBox_TextChanged(object sender, EventArgs e)
         {
-            InputData inputs = new InputData();
-            if (inputs.ZipPath != null)
-                inputs.GetZipPath(this);
+            ArchiveButton.Enabled = true;
         }
 
         private void ArchiveButton_Click(object sender, EventArgs e)
         {
             InputData inputs = new InputData();
             ZipWrapper archiveMethods = new ZipWrapper();
-            inputs.SourcePath = inputs.GetFilesToArchive(this);
-            inputs.ZipPath = inputs.GetZipPath(this);
-            inputs.Compresion = inputs.GetCompressLevel(this);
-            Exception exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
+            Exception exception = new Exception();
+
+            inputs = inputs.ColectData(this, inputs);
+
+            if (ArchivefilesCheckBox.Checked)
+                exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
+            if (ArchiveFoldersCheckBox.Checked)
+                exception = archiveMethods.AddFoldersToZip(inputs.SourceFoldersPath, inputs.ZipPath);
+            if (ExtractZipCheckBox.Checked)
+                exception = archiveMethods.ExtractFilesFromZip(inputs.ZipPath, inputs.UnzipPath);
             MessageBox.Show(exception == null
                 ? @"Success :-)"
                 : @"ERROR!" + " " + exception.Message);
@@ -100,14 +94,7 @@ namespace _8zip
         {
             InputData inputs = new InputData();
             var key = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Key;
-            var value = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Value;
-            inputs.GetCompressLevel(this);
-            
-        }
-
-        private void SourceLabel_Click(object sender, EventArgs e)
-        {
-
+            var value = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Value;           
         }
 
         private void panel1_DragEnter(object sender, DragEventArgs e)
@@ -124,7 +111,6 @@ namespace _8zip
                 SourceTextBox.Text = string.Join(", ", file);
             }
             SourceTextBox.Lines = files;
-            inputs2.GetFilesToArchive(this);
 
             SaveFileDialog saveArchive = new SaveFileDialog();
             InputData inputs = new InputData();
@@ -141,18 +127,17 @@ namespace _8zip
                     MessageBox.Show(@"File alredy exists", @"Update?", buttons);
                 }
                 DestinationTextBox.Text = saveArchive.FileName;
-                inputs.GetZipPath(this);
             }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            ArchiveButton.Enabled = true;
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog() {Description = "Select path."})
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog() {Description = @"Select path."})
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -162,10 +147,50 @@ namespace _8zip
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
+        //===== Additional work required. Lot of bugs... =============
 
+        private void ArchivefilesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ArchivefilesCheckBox.Checked)
+                UpdateFormEnabledState(true, true, true, true, true, true, false, true, true, false, false);           
+            else
+                UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);       
         }
+
+        private void ArchiveFoldersCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ArchiveFoldersCheckBox.Checked)
+                UpdateFormEnabledState(true, true, true, true, true, true, false, false, false, true, true);           
+            else
+                UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);         
+        }
+
+        private void ExtractZipCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ExtractZipCheckBox.Checked) 
+                UpdateFormEnabledState(false, false, true, true, true, false, false, false, false, true, true);                          
+            else
+                UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);           
+        }
+
+        //===== Should be moved to different place ========
+        private void UpdateFormEnabledState(bool archiveFiles, bool archiveFolders, bool extract, bool zipPath, bool browseButton, bool compress,
+            bool run, bool openFilesButton, bool filesPath, bool openFoldersButton, bool folderPath)
+        {
+            ArchivefilesCheckBox.Enabled = archiveFiles;
+            ArchiveFoldersCheckBox.Enabled = archiveFolders;
+            ExtractZipCheckBox.Enabled = extract;
+            DestinationTextBox.Enabled = zipPath;
+            Browsebutton2.Enabled = browseButton;
+            ComprLevelcomboBox.Enabled = compress;
+            ArchiveButton.Enabled = run;
+            BrowseButton1.Enabled = openFilesButton;
+            SourceTextBox.Enabled = filesPath;
+            btnOpen.Enabled = openFoldersButton;
+            txtPath.Enabled = folderPath;
+        }
+
+       
     }
 
 }

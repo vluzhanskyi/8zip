@@ -72,6 +72,8 @@ namespace _8zip
                 using (ZipFile zip = ZipFile.Read(zipPath))
                 {
                     zip.ExtractAll(pathToExtract);
+                    zip.ExtractExistingFile = ExtractExistingFileAction.Throw;
+                    zip.Save(zipPath);
                 }
                 return null;
             }
@@ -83,24 +85,38 @@ namespace _8zip
  //           return new Exception("Invalid extracting path or archive defined");
         }
 
-        public void AddFoldersToZip(string source, string zipPath)
+        internal Exception AddFoldersToZip(string[] source, string zipPath)
         {
+            Exception ex = null;
             if (!File.Exists(zipPath))
             {
-                using (ZipFile zip = new ZipFile())
+                try
                 {
-                    zip.AddDirectory(source);
-                    zip.Save(zipPath);
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        for (int i = 0; i < source.Length; i++)
+                            zip.AddDirectory(source[i]);
+                        zip.Save(zipPath);                       
+                    }
                 }
+                catch (Exception exception)
+                {ex = exception;}
             }
             else
             {
-                using (ZipFile zip = ZipFile.Read(zipPath))
+                try
                 {
-                    zip.AddDirectory(source);
-                    zip.Save(zipPath);
+                    using (ZipFile zip = ZipFile.Read(zipPath))
+                    {
+                        for (int i = 0; i < source.Length; i++)
+                            zip.AddDirectory(source[i]);
+                        zip.Save(zipPath);
+                    }
                 }
+                catch (Exception exception)
+                {ex = exception;}           
             }
+            return ex;
         }
 
     /*    public void CreateFromDirectory(InputData inputs)
@@ -133,5 +149,6 @@ namespace _8zip
             }
         }
 */
+
     }
 }
