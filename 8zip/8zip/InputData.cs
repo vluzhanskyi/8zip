@@ -33,9 +33,19 @@ namespace _8zip
 
         public string[] GetFilesToArchive(EightZip form)
         {
+            
             SourcePath = new string[form.SourceTextBox.Lines.Length];
             SourcePath = form.SourceTextBox.Lines;
             return SourcePath;
+        }
+
+        public InputData ColectData(EightZip formEightZip, InputData inputs)
+        {
+            ZipWrapper archiveMethods = new ZipWrapper();
+            inputs.SourcePath = inputs.GetFilesToArchive(formEightZip);
+            inputs.ZipPath = inputs.GetZipPath(formEightZip);
+            inputs.Compresion = inputs.GetCompressLevel(formEightZip);
+            return inputs;
         }
     }
 
