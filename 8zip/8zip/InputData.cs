@@ -1,7 +1,5 @@
 ﻿using Ionic.Zip;
-using System;
 using System.Collections.Generic;
-using System.IO.Compression;
 
 namespace _8zip
 {

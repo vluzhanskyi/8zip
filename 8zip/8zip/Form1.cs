@@ -27,7 +27,6 @@ namespace _8zip
         private void button1_Click(object sender, EventArgs e)
         {
             int size = 1;
-            InputData inputs = new InputData();
             OpenFileDialog fDialog = new OpenFileDialog
             {
                 Title = @"Open File To Archive",
@@ -48,7 +47,6 @@ namespace _8zip
         private void Browsebutton2_Click(object sender, EventArgs e)
         {           
             SaveFileDialog saveArchive = new SaveFileDialog();
-            InputData inputs = new InputData();
             saveArchive.Title = @"Save Archive As: ";
             saveArchive.Filter = @"Zip files (*.zip)|*.zip";
             DialogResult result = saveArchive.ShowDialog(); // Show the dialog.
@@ -56,7 +54,7 @@ namespace _8zip
 
             if (result != DialogResult.OK) return;
 
-            DestinationTextBox.Text = saveArchive.FileName;;
+            DestinationTextBox.Text = saveArchive.FileName;
         }
 
         private void SourceTextBox_TextChanged(object sender, EventArgs e)
@@ -73,7 +71,7 @@ namespace _8zip
         {
             InputData inputs = new InputData();
             ZipWrapper archiveMethods = new ZipWrapper();
-            Exception exception = new Exception();
+            Exception exception;
 
             inputs = inputs.ColectData(this, inputs);
 
@@ -88,7 +86,6 @@ namespace _8zip
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InputData inputs = new InputData();
             var key = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Key;
             var value = ((System.Collections.Generic.KeyValuePair<int, string>)ComprLevelcomboBox.SelectedItem).Value;           
         }
@@ -100,7 +97,6 @@ namespace _8zip
 
         private void panel1_DragDrop(object sender, DragEventArgs e)
         {
-            InputData inputs2 = new InputData();
             string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             foreach (string file in files)
             {
@@ -109,7 +105,6 @@ namespace _8zip
             SourceTextBox.Lines = files;
 
             SaveFileDialog saveArchive = new SaveFileDialog();
-            InputData inputs = new InputData();
             saveArchive.Title = @"Save Archive As: ";
             saveArchive.Filter = @"Zip files (*.zip)|*.zip";
             DialogResult result = saveArchive.ShowDialog(); // Show the dialog.

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Ionic.Zip;
-using System.Collections.Generic;
 
 namespace _8zip
 {
@@ -26,38 +25,36 @@ namespace _8zip
             public string Name { get; set; }
             public bool IsFolder { get; set; }
         }
+
         private Source[] TestSource(string[] source)
         {
-            Source[] SourceToArchive = new Source[source.Length];
+            Source[] sourceToArchive = new Source[source.Length];
 
             for (int i = 0; i < source.Length; i++)
             {
-                SourceToArchive[i].Path = source[i];
-                SourceToArchive[i].Name = source[i].Split('\\').Last();
+                sourceToArchive[i].Path = source[i];
+                sourceToArchive[i].Name = source[i].Split('\\').Last();
                 if (Directory.Exists(source[i]))
-                    SourceToArchive[i].IsFolder = true;
+                    sourceToArchive[i].IsFolder = true;
                 else
-                    SourceToArchive[i].IsFolder = false;                        
+                    sourceToArchive[i].IsFolder = false;                        
             }
-                return SourceToArchive;
+                return sourceToArchive;
         }
+
         public Exception AddFilesToZip(string[] source, string zipPath, CompressionMethod compressLevel)
         {
             Exception exception = null;
-            Source[] SourceToArchive = TestSource(source);
-            ZipFile zip = null;
+            Source[] sourceToArchive = TestSource(source);
             try
             {
-                if (!File.Exists(zipPath))
-                    zip = new ZipFile();
-                else
-                    zip = ZipFile.Read(zipPath);
-                    try
+                ZipFile zip = !File.Exists(zipPath) ? new ZipFile() : ZipFile.Read(zipPath);
+                try
                     {
                         using (zip)
                         {
                             zip.CompressionMethod = compressLevel;
-                            foreach (Source s in SourceToArchive)
+                            foreach (Source s in sourceToArchive)
                             {
                                 if (!s.IsFolder)
                                     zip.AddFile(s.Path, "");
@@ -71,14 +68,15 @@ namespace _8zip
                     {
                         exception = ex;
                     }
-                }
-            
+            }
+
             catch (Exception ex)
             {
                 exception = ex;
             }
             return exception;
         }
+
         public Exception ExtractFilesFromZip(string zipPath, string pathToExtract)
         {
             Exception exception = null;
