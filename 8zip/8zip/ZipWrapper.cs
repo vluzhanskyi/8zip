@@ -23,6 +23,7 @@ namespace _8zip
         struct Source
         {
             public string Path { get; set; }
+            public string Name { get; set; }
             public bool IsFolder { get; set; }
         }
         private Source[] TestSource(string[] source)
@@ -32,39 +33,38 @@ namespace _8zip
             for (int i = 0; i < source.Length; i++)
             {
                 SourceToArchive[i].Path = source[i];
-
+                SourceToArchive[i].Name = source[i].Split('\\').Last();
                 if (Directory.Exists(source[i]))
                     SourceToArchive[i].IsFolder = true;
                 else
                     SourceToArchive[i].IsFolder = false;                        
             }
-            
                 return SourceToArchive;
         }
-
         public Exception AddFilesToZip(string[] source, string zipPath, CompressionMethod compressLevel)
         {
             Exception exception = null;
             Source[] SourceToArchive = TestSource(source);
+            ZipFile zip = null;
             try
             {
                 if (!File.Exists(zipPath))
-                {
+                    zip = new ZipFile();
+                else
+                    zip = ZipFile.Read(zipPath);
                     try
                     {
-                        using (ZipFile zip = new ZipFile())
+                        using (zip)
                         {
                             zip.CompressionMethod = compressLevel;
-
                             foreach (Source s in SourceToArchive)
                             {
                                 if (!s.IsFolder)
                                     zip.AddFile(s.Path, "");
                                 else
-                                    zip.AddDirectory(s.Path, "");
-                                zip.Save(zipPath);
+                                    zip.AddDirectory(s.Path, s.Name);
                             }
-
+                            zip.Save(zipPath);
                         }
                     }
                     catch (Exception ex)
@@ -72,45 +72,16 @@ namespace _8zip
                         exception = ex;
                     }
                 }
-
-                else
-
-                {
-                    using (ZipFile zip = ZipFile.Read(zipPath))
-                    {
-                        try
-                        {
-                            zip.CompressionMethod = compressLevel;
-
-                            foreach (Source s in SourceToArchive)
-                            {
-                                if (!s.IsFolder)
-                                    zip.AddFile(s.Path, "");
-                                else
-                                    zip.AddDirectory(s.Path, "");
-                                zip.Save(zipPath);
-                            }
-
-                            zip.Save(zipPath);
-                        }
-                        catch (ArgumentException ex)
-                        {
-                            exception = ex;
-                        }
-                    }
-                }
-                    return exception;
-                }
-
+            
             catch (Exception ex)
             {
-                return ex;
+                exception = ex;
             }
-            
+            return exception;
         }
-
         public Exception ExtractFilesFromZip(string zipPath, string pathToExtract)
         {
+            Exception exception = null;
             try
             {
                 using (ZipFile zip = ZipFile.Read(zipPath))
@@ -119,13 +90,14 @@ namespace _8zip
                     zip.ExtractExistingFile = ExtractExistingFileAction.Throw;
                     zip.Save(zipPath);
                 }
-                return null;
+                
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                return exception;
+                exception = ex;
             }
-            
+
+            return exception;
  //           return new Exception("Invalid extracting path or archive defined");
         }
 

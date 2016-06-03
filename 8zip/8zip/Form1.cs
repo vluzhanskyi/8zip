@@ -6,8 +6,6 @@ namespace _8zip
 {
     public partial class EightZip : Form
     {
-        
-
         public EightZip()
         {
             InitializeComponent();            

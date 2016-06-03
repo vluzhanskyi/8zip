@@ -1,4 +1,6 @@
 ﻿using Ionic.Zip;
+using System;
+using System.Collections.Generic;
 using System.IO.Compression;
 
 namespace _8zip
@@ -40,20 +42,36 @@ namespace _8zip
         private string[] GetFoldersToArchive(EightZip form)
         {
             SourceFoldersPath = new string[form.txtPath.Lines.Length];
-            SourceFoldersPath = form.txtPath.Lines;
+            if (form.txtPath.Text.Length > 0)
+                SourceFoldersPath[0] = form.txtPath.Text;
             return SourceFoldersPath;
         }
 
-        public InputData ColectData(EightZip form, InputData inputs)
+        public InputData ColectData(EightZip uiForm, InputData inputs)
         {
-            inputs.SourcePath = inputs.GetFilesToArchive(form);
-            inputs.ZipPath = inputs.GetZipPath(form);
-            inputs.SourceFoldersPath = inputs.GetFoldersToArchive(form);
+            inputs.SourcePath = inputs.GetFilesToArchive(uiForm);
+            inputs.ZipPath = inputs.GetZipPath(uiForm);
+            inputs.SourceFoldersPath = inputs.GetFoldersToArchive(uiForm);
+            inputs.Compresion = inputs.GetCompressLevel(uiForm);
+            //========================Should be changed according to UX future changes======
+            inputs.SourcePath = ColectSources(inputs.SourceFoldersPath, inputs.SourcePath);
             if (SourceFoldersPath.Length > 0)
-                inputs.UnzipPath = inputs.SourceFoldersPath[0];
-            inputs.Compresion = inputs.GetCompressLevel(form);
+                inputs.UnzipPath = inputs.SourceFoldersPath[0];         //for test 
 
             return inputs;
+        }
+
+        private string[] ColectSources(string[] files, string[] folders)
+        {
+            List<string> listOfStrings = new List<string>();
+
+            foreach (string s in files)
+                listOfStrings.Add(s);
+
+            foreach (string p in folders)
+                listOfStrings.Add(p);
+            
+            return listOfStrings.ToArray();
         }
     }
 
