@@ -37,14 +37,13 @@
             this.ComprLevelcomboBox = new System.Windows.Forms.ComboBox();
             this.CompressionLevel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ExtractZipRadioButton = new System.Windows.Forms.RadioButton();
+            this.ArchivefilesRadioButton = new System.Windows.Forms.RadioButton();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPath = new System.Windows.Forms.TextBox();
-            this.ExtractZipCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ArchiveFoldersCheckBox = new System.Windows.Forms.CheckBox();
             this.btnOpen = new System.Windows.Forms.Button();
-            this.ArchivefilesCheckBox = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,14 +137,13 @@
             // panel1
             // 
             this.panel1.AllowDrop = true;
+            this.panel1.Controls.Add(this.ExtractZipRadioButton);
+            this.panel1.Controls.Add(this.ArchivefilesRadioButton);
             this.panel1.Controls.Add(this.webBrowser1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.txtPath);
-            this.panel1.Controls.Add(this.ExtractZipCheckBox);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.ArchiveFoldersCheckBox);
             this.panel1.Controls.Add(this.btnOpen);
-            this.panel1.Controls.Add(this.ArchivefilesCheckBox);
             this.panel1.Controls.Add(this.SourceTextBox);
             this.panel1.Controls.Add(this.CompressionLevel);
             this.panel1.Controls.Add(this.ComprLevelcomboBox);
@@ -160,6 +158,30 @@
             this.panel1.TabIndex = 9;
             this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
             this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel1_DragEnter);
+            // 
+            // ExtractZipRadioButton
+            // 
+            this.ExtractZipRadioButton.AutoSize = true;
+            this.ExtractZipRadioButton.Location = new System.Drawing.Point(181, 3);
+            this.ExtractZipRadioButton.Name = "ExtractZipRadioButton";
+            this.ExtractZipRadioButton.Size = new System.Drawing.Size(76, 17);
+            this.ExtractZipRadioButton.TabIndex = 16;
+            this.ExtractZipRadioButton.TabStop = true;
+            this.ExtractZipRadioButton.Text = "Extract Zip";
+            this.ExtractZipRadioButton.UseVisualStyleBackColor = true;
+            this.ExtractZipRadioButton.CheckedChanged += new System.EventHandler(this.ExtractZipRadioButton_CheckedChanged);
+            // 
+            // ArchivefilesRadioButton
+            // 
+            this.ArchivefilesRadioButton.AutoSize = true;
+            this.ArchivefilesRadioButton.Location = new System.Drawing.Point(3, 3);
+            this.ArchivefilesRadioButton.Name = "ArchivefilesRadioButton";
+            this.ArchivefilesRadioButton.Size = new System.Drawing.Size(85, 17);
+            this.ArchivefilesRadioButton.TabIndex = 15;
+            this.ArchivefilesRadioButton.TabStop = true;
+            this.ArchivefilesRadioButton.Text = "Archive Files";
+            this.ArchivefilesRadioButton.UseVisualStyleBackColor = true;
+            this.ArchivefilesRadioButton.CheckedChanged += new System.EventHandler(this.ArchivefilesRadioButton_CheckedChanged);
             // 
             // webBrowser1
             // 
@@ -188,17 +210,6 @@
             this.txtPath.TabIndex = 12;
             this.txtPath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // ExtractZipCheckBox
-            // 
-            this.ExtractZipCheckBox.AutoSize = true;
-            this.ExtractZipCheckBox.Location = new System.Drawing.Point(190, 7);
-            this.ExtractZipCheckBox.Name = "ExtractZipCheckBox";
-            this.ExtractZipCheckBox.Size = new System.Drawing.Size(74, 17);
-            this.ExtractZipCheckBox.TabIndex = 2;
-            this.ExtractZipCheckBox.Text = "ExtractZip";
-            this.ExtractZipCheckBox.UseVisualStyleBackColor = true;
-            this.ExtractZipCheckBox.CheckedChanged += new System.EventHandler(this.ExtractZipCheckBox_CheckedChanged);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -207,17 +218,6 @@
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 11;
             this.label1.Text = "Path:";
-            // 
-            // ArchiveFoldersCheckBox
-            // 
-            this.ArchiveFoldersCheckBox.AutoSize = true;
-            this.ArchiveFoldersCheckBox.Location = new System.Drawing.Point(92, 7);
-            this.ArchiveFoldersCheckBox.Name = "ArchiveFoldersCheckBox";
-            this.ArchiveFoldersCheckBox.Size = new System.Drawing.Size(96, 17);
-            this.ArchiveFoldersCheckBox.TabIndex = 1;
-            this.ArchiveFoldersCheckBox.Text = "ArchiveFolders";
-            this.ArchiveFoldersCheckBox.UseVisualStyleBackColor = true;
-            this.ArchiveFoldersCheckBox.CheckedChanged += new System.EventHandler(this.ArchiveFoldersCheckBox_CheckedChanged);
             // 
             // btnOpen
             // 
@@ -229,17 +229,6 @@
             this.btnOpen.Text = "Open Folders";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
-            // ArchivefilesCheckBox
-            // 
-            this.ArchivefilesCheckBox.AutoSize = true;
-            this.ArchivefilesCheckBox.Location = new System.Drawing.Point(4, 7);
-            this.ArchivefilesCheckBox.Name = "ArchivefilesCheckBox";
-            this.ArchivefilesCheckBox.Size = new System.Drawing.Size(83, 17);
-            this.ArchivefilesCheckBox.TabIndex = 0;
-            this.ArchivefilesCheckBox.Text = "Archive files";
-            this.ArchivefilesCheckBox.UseVisualStyleBackColor = true;
-            this.ArchivefilesCheckBox.CheckedChanged += new System.EventHandler(this.ArchivefilesCheckBox_CheckedChanged);
             // 
             // EightZip
             // 
@@ -272,10 +261,9 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.CheckBox ExtractZipCheckBox;
-        private System.Windows.Forms.CheckBox ArchiveFoldersCheckBox;
-        private System.Windows.Forms.CheckBox ArchivefilesCheckBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RadioButton ArchivefilesRadioButton;
+        private System.Windows.Forms.RadioButton ExtractZipRadioButton;
     }
 }
 

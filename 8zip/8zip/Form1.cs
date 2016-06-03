@@ -61,7 +61,7 @@ namespace _8zip
 
         private void SourceTextBox_TextChanged(object sender, EventArgs e)
         {
-                ArchiveButton.Enabled = true;
+            ArchiveButton.Enabled = true;
         }
 
         private void DestinationTextBox_TextChanged(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace _8zip
 
             inputs = inputs.ColectData(this, inputs);
 
-            if (!ExtractZipCheckBox.Checked)
+            if (!ExtractZipRadioButton.Checked)
                 exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
             else 
                 exception = archiveMethods.ExtractFilesFromZip(inputs.ZipPath, inputs.UnzipPath);
@@ -123,6 +123,7 @@ namespace _8zip
                     MessageBox.Show(@"File alredy exists", @"Update?", buttons);
                 }
                 DestinationTextBox.Text = saveArchive.FileName;
+                ArchiveButton.Enabled = true;
             }
         }
 
@@ -145,37 +146,12 @@ namespace _8zip
 
         //===== Additional work required. Lot of bugs... =============
 
-        private void ArchivefilesCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ArchivefilesCheckBox.Checked)
-                UpdateFormEnabledState(true, true, true, true, true, true, false, true, true, true, true);           
-            else
-                UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);       
-        }
-
-        private void ArchiveFoldersCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ArchiveFoldersCheckBox.Checked)
-                UpdateFormEnabledState(true, true, true, true, true, true, false, false, false, true, true);           
-            else
-                UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);         
-        }
-
-        private void ExtractZipCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ExtractZipCheckBox.Checked) 
-                UpdateFormEnabledState(false, false, true, true, true, false, false, false, false, true, true);                          
-            else
-                UpdateFormEnabledState(true, true, true, false, false, false, false, false, false, false, false);           
-        }
-
         //===== Should be moved to different place ========
-        private void UpdateFormEnabledState(bool archiveFiles, bool archiveFolders, bool extract, bool zipPath, bool browseButton, bool compress,
+        private void UpdateFormEnabledState(bool archiveFiles, bool extract, bool zipPath, bool browseButton, bool compress,
             bool run, bool openFilesButton, bool filesPath, bool openFoldersButton, bool folderPath)
         {
-            ArchivefilesCheckBox.Enabled = archiveFiles;
-            ArchiveFoldersCheckBox.Enabled = archiveFolders;
-            ExtractZipCheckBox.Enabled = extract;
+            ArchivefilesRadioButton.Enabled = archiveFiles;
+            ExtractZipRadioButton.Enabled = extract;
             DestinationTextBox.Enabled = zipPath;
             Browsebutton2.Enabled = browseButton;
             ComprLevelcomboBox.Enabled = compress;
@@ -186,7 +162,21 @@ namespace _8zip
             txtPath.Enabled = folderPath;
         }
 
-       
+        private void ArchivefilesRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ArchivefilesRadioButton.Checked)
+                UpdateFormEnabledState(true, true, true, true, true, false, true, true, true, true);
+            else
+                UpdateFormEnabledState(true, true, false, false, false, false, false, false, false, false);
+        }
+
+        private void ExtractZipRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ExtractZipRadioButton.Checked)
+                UpdateFormEnabledState(true, true, true, true, false, false, false, false, true, true);
+            else
+                UpdateFormEnabledState(true, true, false, false, false, false, false, false, false, false);
+        }
     }
 
 }
