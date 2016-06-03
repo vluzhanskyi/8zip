@@ -166,6 +166,11 @@ namespace _8zip
         {
             UpdateFormEnabledState(true, true, true, true, false, false, false, false, true, true);
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }
