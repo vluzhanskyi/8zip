@@ -50,7 +50,7 @@
             // BrowseButton1
             // 
             this.BrowseButton1.Enabled = false;
-            this.BrowseButton1.Location = new System.Drawing.Point(0, 144);
+            this.BrowseButton1.Location = new System.Drawing.Point(0, 29);
             this.BrowseButton1.Name = "BrowseButton1";
             this.BrowseButton1.Size = new System.Drawing.Size(87, 23);
             this.BrowseButton1.TabIndex = 0;
@@ -61,7 +61,7 @@
             // Browsebutton2
             // 
             this.Browsebutton2.Enabled = false;
-            this.Browsebutton2.Location = new System.Drawing.Point(182, 56);
+            this.Browsebutton2.Location = new System.Drawing.Point(182, 117);
             this.Browsebutton2.Name = "Browsebutton2";
             this.Browsebutton2.Size = new System.Drawing.Size(75, 23);
             this.Browsebutton2.TabIndex = 1;
@@ -73,7 +73,7 @@
             // 
             this.SourceTextBox.Enabled = false;
             this.SourceTextBox.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.SourceTextBox.Location = new System.Drawing.Point(119, 147);
+            this.SourceTextBox.Location = new System.Drawing.Point(122, 29);
             this.SourceTextBox.Name = "SourceTextBox";
             this.SourceTextBox.Size = new System.Drawing.Size(139, 20);
             this.SourceTextBox.TabIndex = 2;
@@ -84,7 +84,7 @@
             // 
             this.DestinationTextBox.Enabled = false;
             this.DestinationTextBox.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.DestinationTextBox.Location = new System.Drawing.Point(0, 56);
+            this.DestinationTextBox.Location = new System.Drawing.Point(0, 117);
             this.DestinationTextBox.Name = "DestinationTextBox";
             this.DestinationTextBox.Size = new System.Drawing.Size(178, 20);
             this.DestinationTextBox.TabIndex = 3;
@@ -94,7 +94,7 @@
             // Destination
             // 
             this.Destination.AutoSize = true;
-            this.Destination.Location = new System.Drawing.Point(-3, 40);
+            this.Destination.Location = new System.Drawing.Point(-3, 101);
             this.Destination.Name = "Destination";
             this.Destination.Size = new System.Drawing.Size(70, 13);
             this.Destination.TabIndex = 5;
@@ -103,7 +103,7 @@
             // ArchiveButton
             // 
             this.ArchiveButton.Enabled = false;
-            this.ArchiveButton.Location = new System.Drawing.Point(182, 104);
+            this.ArchiveButton.Location = new System.Drawing.Point(182, 156);
             this.ArchiveButton.Name = "ArchiveButton";
             this.ArchiveButton.Size = new System.Drawing.Size(75, 23);
             this.ArchiveButton.TabIndex = 6;
@@ -117,10 +117,10 @@
             this.ComprLevelcomboBox.Enabled = false;
             this.ComprLevelcomboBox.ForeColor = System.Drawing.SystemColors.InfoText;
             this.ComprLevelcomboBox.FormattingEnabled = true;
-            this.ComprLevelcomboBox.Location = new System.Drawing.Point(0, 104);
+            this.ComprLevelcomboBox.Location = new System.Drawing.Point(0, 156);
             this.ComprLevelcomboBox.MaxDropDownItems = 3;
             this.ComprLevelcomboBox.Name = "ComprLevelcomboBox";
-            this.ComprLevelcomboBox.Size = new System.Drawing.Size(121, 21);
+            this.ComprLevelcomboBox.Size = new System.Drawing.Size(110, 21);
             this.ComprLevelcomboBox.TabIndex = 7;
             this.ComprLevelcomboBox.Text = "Compression level";
             this.ComprLevelcomboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -128,7 +128,7 @@
             // CompressionLevel
             // 
             this.CompressionLevel.AutoSize = true;
-            this.CompressionLevel.Location = new System.Drawing.Point(-3, 88);
+            this.CompressionLevel.Location = new System.Drawing.Point(-3, 140);
             this.CompressionLevel.Name = "CompressionLevel";
             this.CompressionLevel.Size = new System.Drawing.Size(99, 13);
             this.CompressionLevel.TabIndex = 8;
@@ -138,31 +138,32 @@
             // 
             this.panel1.AllowDrop = true;
             this.panel1.Controls.Add(this.ExtractZipRadioButton);
+            this.panel1.Controls.Add(this.ArchiveButton);
+            this.panel1.Controls.Add(this.Destination);
+            this.panel1.Controls.Add(this.ComprLevelcomboBox);
             this.panel1.Controls.Add(this.ArchivefilesRadioButton);
+            this.panel1.Controls.Add(this.CompressionLevel);
+            this.panel1.Controls.Add(this.Browsebutton2);
             this.panel1.Controls.Add(this.webBrowser1);
+            this.panel1.Controls.Add(this.DestinationTextBox);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.txtPath);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnOpen);
             this.panel1.Controls.Add(this.SourceTextBox);
-            this.panel1.Controls.Add(this.CompressionLevel);
-            this.panel1.Controls.Add(this.ComprLevelcomboBox);
-            this.panel1.Controls.Add(this.DestinationTextBox);
             this.panel1.Controls.Add(this.BrowseButton1);
-            this.panel1.Controls.Add(this.Browsebutton2);
-            this.panel1.Controls.Add(this.Destination);
-            this.panel1.Controls.Add(this.ArchiveButton);
             this.panel1.Location = new System.Drawing.Point(12, 6);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(267, 408);
             this.panel1.TabIndex = 9;
             this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
             this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel1_DragEnter);
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // ExtractZipRadioButton
             // 
             this.ExtractZipRadioButton.AutoSize = true;
-            this.ExtractZipRadioButton.Location = new System.Drawing.Point(181, 3);
+            this.ExtractZipRadioButton.Location = new System.Drawing.Point(191, 0);
             this.ExtractZipRadioButton.Name = "ExtractZipRadioButton";
             this.ExtractZipRadioButton.Size = new System.Drawing.Size(76, 17);
             this.ExtractZipRadioButton.TabIndex = 16;
@@ -174,7 +175,7 @@
             // ArchivefilesRadioButton
             // 
             this.ArchivefilesRadioButton.AutoSize = true;
-            this.ArchivefilesRadioButton.Location = new System.Drawing.Point(3, 3);
+            this.ArchivefilesRadioButton.Location = new System.Drawing.Point(0, 0);
             this.ArchivefilesRadioButton.Name = "ArchivefilesRadioButton";
             this.ArchivefilesRadioButton.Size = new System.Drawing.Size(85, 17);
             this.ArchivefilesRadioButton.TabIndex = 15;
@@ -194,7 +195,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(87, 149);
+            this.label2.Location = new System.Drawing.Point(89, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 14;
@@ -203,7 +204,7 @@
             // txtPath
             // 
             this.txtPath.Enabled = false;
-            this.txtPath.Location = new System.Drawing.Point(119, 176);
+            this.txtPath.Location = new System.Drawing.Point(122, 58);
             this.txtPath.Name = "txtPath";
             this.txtPath.ReadOnly = true;
             this.txtPath.Size = new System.Drawing.Size(139, 20);
@@ -213,7 +214,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(87, 178);
+            this.label1.Location = new System.Drawing.Point(90, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 11;
@@ -222,7 +223,7 @@
             // btnOpen
             // 
             this.btnOpen.Enabled = false;
-            this.btnOpen.Location = new System.Drawing.Point(0, 173);
+            this.btnOpen.Location = new System.Drawing.Point(0, 55);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(87, 23);
             this.btnOpen.TabIndex = 10;
@@ -234,7 +235,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 419);
+            this.ClientSize = new System.Drawing.Size(282, 419);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "EightZip";
