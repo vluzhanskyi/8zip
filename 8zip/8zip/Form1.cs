@@ -159,18 +159,12 @@ namespace _8zip
 
         private void ArchivefilesRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (ArchivefilesRadioButton.Checked)
-                UpdateFormEnabledState(true, true, true, true, true, false, true, true, true, true);
-            else
-                UpdateFormEnabledState(true, true, false, false, false, false, false, false, false, false);
+            UpdateFormEnabledState(true, true, true, true, true, false, true, true, true, true);    
         }
 
         private void ExtractZipRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (ExtractZipRadioButton.Checked)
-                UpdateFormEnabledState(true, true, true, true, false, false, false, false, true, true);
-            else
-                UpdateFormEnabledState(true, true, false, false, false, false, false, false, false, false);
+            UpdateFormEnabledState(true, true, true, true, false, false, false, false, true, true);
         }
     }
 
