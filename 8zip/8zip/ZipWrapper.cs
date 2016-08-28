@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using Ionic.Zip;
 
 namespace _8zip
@@ -37,9 +38,9 @@ namespace _8zip
                 if (Directory.Exists(source[i]))
                     sourceToArchive[i].IsFolder = true;
                 else
-                    sourceToArchive[i].IsFolder = false;                        
+                    sourceToArchive[i].IsFolder = false;
             }
-                return sourceToArchive;
+            return sourceToArchive;
         }
 
         public Exception AddFilesToZip(string[] source, string zipPath, CompressionMethod compressLevel)
@@ -50,24 +51,24 @@ namespace _8zip
             {
                 ZipFile zip = !File.Exists(zipPath) ? new ZipFile() : ZipFile.Read(zipPath);
                 try
+                {
+                    using (zip)
                     {
-                        using (zip)
+                        zip.CompressionMethod = compressLevel;
+                        foreach (Source s in sourceToArchive)
                         {
-                            zip.CompressionMethod = compressLevel;
-                            foreach (Source s in sourceToArchive)
-                            {
-                                if (!s.IsFolder)
-                                    zip.AddFile(s.Path, "");
-                                else
-                                    zip.AddDirectory(s.Path, s.Name);
-                            }
-                            zip.Save(zipPath);
+                            if (!s.IsFolder)
+                                zip.AddFile(s.Path, "");
+                            else
+                                zip.AddDirectory(s.Path, s.Name);
                         }
+                        zip.Save(zipPath);
                     }
-                    catch (Exception ex)
-                    {
-                        exception = ex;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
             }
 
             catch (Exception ex)
@@ -77,92 +78,28 @@ namespace _8zip
             return exception;
         }
 
-        public Exception ExtractFilesFromZip(string zipPath, string pathToExtract)
+        public void ExtractFilesFromZip(string zipPath, string pathToExtract)
         {
-            Exception exception = null;
             try
             {
                 using (ZipFile zip = ZipFile.Read(zipPath))
                 {
+                    zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
                     zip.ExtractAll(pathToExtract);
-                    zip.ExtractExistingFile = ExtractExistingFileAction.Throw;
-                    zip.Save(zipPath);
                 }
-                
+
+            }
+                catch (ZipException ex)
+            {
+                if (ex.Message.Contains("already exists"))
+                    throw;
             }
             catch (Exception ex)
             {
-                exception = ex;
+                MessageBox.Show(ex.Message);
             }
 
-            return exception;
- //           return new Exception("Invalid extracting path or archive defined");
         }
-
-        /*      internal Exception AddFoldersToZip(string[] source, string zipPath)
-              {
-                  Exception ex = null;
-                  if (!File.Exists(zipPath))
-                  {
-                      try
-                      {
-                          using (ZipFile zip = new ZipFile())
-                          {
-                              for (int i = 0; i < source.Length; i++)
-                                  zip.AddDirectory(source[i]);
-                              zip.Save(zipPath);                       
-                          }
-                      }
-                      catch (Exception exception)
-                      {ex = exception;}
-                  }
-                  else
-                  {
-                      try
-                      {
-                          using (ZipFile zip = ZipFile.Read(zipPath))
-                          {
-                              for (int i = 0; i < source.Length; i++)
-                                  zip.AddDirectory(source[i]);
-                              zip.Save(zipPath);
-                          }
-                      }
-                      catch (Exception exception)
-                      {ex = exception;}           
-                  }
-                  return ex;
-              }
-
-              public void CreateFromDirectory(InputData inputs)
-              {
-
-                  foreach (string t in inputs.SourceFoldersPath)
-                  {
-                      ZipFile.CreateFromDirectory(t, inputs.ZipPath, inputs.Compresion, false);
-                  }
-              }
-
-              public void CreateFromFile(InputData inputs)
-              {
-                  foreach (string t in inputs.SourcePath)
-                  {
-
-                      using (inputs.Destination = ZipFile.Open(inputs.ZipPath, ZipArchiveMode.Create))
-                      {
-                          inputs.Destination.CreateEntryFromFile(t, "newEntry.txt", inputs.Compresion);
-                      }
-
-                 }
-              }
-
-              public void ExtractFromZipFile(InputData inputs)
-              {
-                  foreach (string t in inputs.SourcePath)
-                  {
-                      ZipFile.ExtractToDirectory(inputs.ZipPath, inputs.UnzipPath); 
-                  }
-              }
-      */
 
     }
 }

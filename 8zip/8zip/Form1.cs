@@ -77,11 +77,11 @@ namespace _8zip
 
             if (!ExtractZipRadioButton.Checked)
                 exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
-            else 
-                exception = archiveMethods.ExtractFilesFromZip(inputs.ZipPath, inputs.UnzipPath);
-            MessageBox.Show(exception == null
-                ? @"Success :-)"
-                : @"ERROR!" + " " + exception.Message);
+           // else 
+            //    exception = archiveMethods.ExtractFilesFromZip(inputs.ZipPath, inputs.UnzipPath);
+            //MessageBox.Show(exception == null
+            //    ? @"Success :-)"
+            //    : @"ERROR!" + " " + exception.Message);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
