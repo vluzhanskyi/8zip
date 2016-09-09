@@ -120,4 +120,25 @@
   <data name="Program_Main_Done_" xml:space="preserve">
     <value>Done!</value>
   </data>
+  <data name="ProgressBar_progressBar2_Click_Done_" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="ProgressBar_progressBar2_Click_Do_you_want_to_remove_zip_packages_" xml:space="preserve">
+    <value>Do you want to remove zip packages?</value>
+  </data>
+  <data name="ProgressBar_GetRecPackButton_Click_Done_" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="ProgressBar_GetRecPackButton_Click_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="ProgressBar_ExtractButton_Click___zip_was_not_found" xml:space="preserve">
+    <value>*.zip was not found</value>
+  </data>
+  <data name="ProgressBar_GetRecPackButton_Click_ServicePack_downloaded_successfully" xml:space="preserve">
+    <value>ServicePack downloaded successfully</value>
+  </data>
+  <data name="BuildForm_OkButton_Click_Input_data" xml:space="preserve">
+    <value>Input data</value>
+  </data>
 </root>

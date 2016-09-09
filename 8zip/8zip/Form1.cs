@@ -75,8 +75,8 @@ namespace _8zip
 
             inputs = inputs.ColectData(this, inputs);
 
-            if (!ExtractZipRadioButton.Checked)
-                exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
+           // if (!ExtractZipRadioButton.Checked)
+            //    exception = archiveMethods.AddFilesToZip(inputs.SourcePath, inputs.ZipPath, inputs.Compresion);
            // else 
             //    exception = archiveMethods.ExtractFilesFromZip(inputs.ZipPath, inputs.UnzipPath);
             //MessageBox.Show(exception == null

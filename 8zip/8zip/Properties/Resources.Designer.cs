@@ -61,6 +61,15 @@ namespace _8zip.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input data.
+        /// </summary>
+        internal static string BuildForm_OkButton_Click_Input_data {
+            get {
+                return ResourceManager.GetString("BuildForm_OkButton_Click_Input_data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Done!.
         /// </summary>
         internal static string Program_Main_Done_ {
@@ -75,6 +84,60 @@ namespace _8zip.Properties {
         internal static string Program_Main_Fail_to_extract {
             get {
                 return ResourceManager.GetString("Program_Main_Fail_to_extract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *.zip was not found.
+        /// </summary>
+        internal static string ProgressBar_ExtractButton_Click___zip_was_not_found {
+            get {
+                return ResourceManager.GetString("ProgressBar_ExtractButton_Click___zip_was_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string ProgressBar_GetRecPackButton_Click_Done {
+            get {
+                return ResourceManager.GetString("ProgressBar_GetRecPackButton_Click_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done!.
+        /// </summary>
+        internal static string ProgressBar_GetRecPackButton_Click_Done_ {
+            get {
+                return ResourceManager.GetString("ProgressBar_GetRecPackButton_Click_Done_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ServicePack downloaded successfully.
+        /// </summary>
+        internal static string ProgressBar_GetRecPackButton_Click_ServicePack_downloaded_successfully {
+            get {
+                return ResourceManager.GetString("ProgressBar_GetRecPackButton_Click_ServicePack_downloaded_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove zip packages?.
+        /// </summary>
+        internal static string ProgressBar_progressBar2_Click_Do_you_want_to_remove_zip_packages_ {
+            get {
+                return ResourceManager.GetString("ProgressBar_progressBar2_Click_Do_you_want_to_remove_zip_packages_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done!.
+        /// </summary>
+        internal static string ProgressBar_progressBar2_Click_Done_ {
+            get {
+                return ResourceManager.GetString("ProgressBar_progressBar2_Click_Done_", resourceCulture);
             }
         }
     }

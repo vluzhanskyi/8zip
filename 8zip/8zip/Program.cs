@@ -17,13 +17,9 @@ namespace _8zip
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ProgressBar());
 
-            Extract();
-
-
         }
-        private static void Extract ()
-            {
-                }
-        }
+        
     }
+    
+}
 
