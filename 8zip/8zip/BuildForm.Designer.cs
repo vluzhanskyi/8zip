@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buildVersionTextBox = new System.Windows.Forms.TextBox();
             this.OkButton = new System.Windows.Forms.Button();
+            this.IsRecOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -49,6 +50,7 @@
             this.buildVersionTextBox.Name = "buildVersionTextBox";
             this.buildVersionTextBox.Size = new System.Drawing.Size(264, 20);
             this.buildVersionTextBox.TabIndex = 1;
+            this.buildVersionTextBox.TextChanged += new System.EventHandler(this.buildVersionTextBox_TextChanged);
             // 
             // OkButton
             // 
@@ -60,11 +62,24 @@
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
+            // IsRecOnlyCheckBox
+            // 
+            this.IsRecOnlyCheckBox.AutoSize = true;
+            this.IsRecOnlyCheckBox.Checked = true;
+            this.IsRecOnlyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IsRecOnlyCheckBox.Location = new System.Drawing.Point(13, 60);
+            this.IsRecOnlyCheckBox.Name = "IsRecOnlyCheckBox";
+            this.IsRecOnlyCheckBox.Size = new System.Drawing.Size(75, 17);
+            this.IsRecOnlyCheckBox.TabIndex = 3;
+            this.IsRecOnlyCheckBox.Text = "IsRecOnly";
+            this.IsRecOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
             // BuildForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(286, 89);
+            this.Controls.Add(this.IsRecOnlyCheckBox);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.buildVersionTextBox);
             this.Controls.Add(this.label1);
@@ -80,5 +95,6 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox buildVersionTextBox;
         public System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.CheckBox IsRecOnlyCheckBox;
     }
 }

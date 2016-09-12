@@ -9,11 +9,14 @@ namespace _8zip
     {
         
         public string BuildVersion { set; get; }
+        public bool isRecOnly { set; get; }
 
-        public BuildForm()
+        public BuildForm(bool textBoxAvailability, bool chackboxAvailability)
         {
             InitializeComponent();
             AcceptButton = OkButton;
+            IsRecOnlyCheckBox.Enabled = chackboxAvailability;
+            buildVersionTextBox.Enabled = textBoxAvailability;
 
         }
 
@@ -27,6 +30,7 @@ namespace _8zip
             if (buildVersionTextBox.Text != string.Empty)
             {
                 BuildVersion = buildVersionTextBox.Text;
+                isRecOnly = IsRecOnlyCheckBox.Checked;
                 ProgressBar.BuildVersion = BuildVersion;
                 Close();
             }
@@ -34,6 +38,11 @@ namespace _8zip
             {
                 MessageBox.Show(Resources.BuildForm_OkButton_Click_Input_data);
             }
+        }
+
+        private void buildVersionTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
        
