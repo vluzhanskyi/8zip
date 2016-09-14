@@ -14,7 +14,59 @@ namespace _8zip
 
         public event EventHandler<ProgressEventArgs> ProgesEvent;
         public event EventHandler<ChangeMaxProgressValueEventArgs> MaxValueChangedEvent;
-        public event EventHandler<UpdateFormArgs> UpdateFormEvent; 
+        public event EventHandler<UpdateFormArgs> UpdateFormEvent;
+
+        private const string Official65Source = @"\\172.28.253.21\build\Drop\Engage6.5\Official\Server_side";
+        private const string Official65SpSource = @"\\172.28.253.21\build\Drop\Engage6.5\Official";
+        private const string Official65DeploymentSource = @"\\172.28.253.21\build\Drop\Deployment_Products\Official\Engage_6.5";
+        private const string DailyUPsFolder = @"\\172.28.253.21\build\AutoDeployment\MirageB";
+        private const string DailyDeplymentSource = @"\\172.28.253.21\build\Drop\Deployment_Products\Under_RND_testing\Tools\";
+        private static List<string> _recPackagesList;
+        private static List<string> _notUsedPackagesList;
+        private const long MinimalFileSize = 1000;
+
+        internal ZipWrapper()
+        {
+            _recPackagesList = new List<string>
+            {
+                "AIR",
+                "Applications",
+                "CTI",
+                "Data Mart",
+                "Database",
+                "Interactions Center",
+                "Logger",
+                "Storage",
+                "KAI",
+                "SQLAutoSetup2014_Enertprise",
+                "Reporter",
+                "xml",
+                "NDM",
+                "SRT",
+                "SP"
+            };
+
+            _notUsedPackagesList = new List<string>
+            {
+                "Thai",
+                "Spanish",
+                "Russian",
+                "Swedish",
+                "Cantonese",
+                "English",
+                "French",
+                "German",
+                "Italian",
+                "Japanese",
+                "Korean",
+                "Polish",
+                "Portuguese",
+                "Turkish",
+                "Hindi",
+                "Hebrew",
+                "Biometrics"
+            };
+        }
 
         struct Source
         {
@@ -39,40 +91,40 @@ namespace _8zip
             return sourceToArchive;
         }
 
-        private Exception AddFilesToZip(string[] source, string zipPath, CompressionMethod compressLevel)
-        {
-            Exception exception = null;
-            Source[] sourceToArchive = TestSource(source);
-            try
-            {
-                ZipFile zip = !File.Exists(zipPath) ? new ZipFile() : ZipFile.Read(zipPath);
-                try
-                {
-                    using (zip)
-                    {
-                        zip.CompressionMethod = compressLevel;
-                        foreach (Source s in sourceToArchive)
-                        {
-                            if (!s.IsFolder)
-                                zip.AddFile(s.Path, "");
-                            else
-                                zip.AddDirectory(s.Path, s.Name);
-                        }
-                        zip.Save(zipPath);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
-            }
+       //private Exception AddFilesToZip(string[] source, string zipPath, CompressionMethod compressLevel)
+       // {
+       //     Exception exception = null;
+       //     Source[] sourceToArchive = TestSource(source);
+       //     try
+       //     {
+       //         ZipFile zip = !File.Exists(zipPath) ? new ZipFile() : ZipFile.Read(zipPath);
+       //         try
+       //         {
+       //             using (zip)
+       //             {
+       //                 zip.CompressionMethod = compressLevel;
+       //                 foreach (Source s in sourceToArchive)
+       //                 {
+       //                     if (!s.IsFolder)
+       //                         zip.AddFile(s.Path, "");
+       //                     else
+       //                         zip.AddDirectory(s.Path, s.Name);
+       //                 }
+       //                 zip.Save(zipPath);
+       //             }
+       //         }
+       //         catch (Exception ex)
+       //         {
+       //             exception = ex;
+       //         }
+       //     }
 
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-            return exception;
-        }
+       //     catch (Exception ex)
+       //     {
+       //         exception = ex;
+       //     }
+       //     return exception;
+       // }
 
         private void ExtractFilesFromZip(string zipPath, string pathToExtract)
         {
@@ -83,9 +135,9 @@ namespace _8zip
                    zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
                     if (zip.Name.Contains("SQLAutoSetup"))
                     {
-                        var selection = (from cf in zip.Entries
-                                         where (cf.FileName).StartsWith("SQLAutoSetup/")
-                                         select cf);
+                        var selection = from cf in zip.Entries
+                                         where cf.FileName.StartsWith("SQLAutoSetup/") || cf.FileName.StartsWith("SQL Auto Setup Ent 2014")
+                                         select cf;
 
                         selection.ToList().ForEach(entry =>
                         {
@@ -174,21 +226,21 @@ namespace _8zip
             string[] source = new string[3];
             if (engageVersion == 6.5)
             {
-                source[0] = @"\\172.28.253.21\build\Drop\Engage6.5\Official\Server_side";
-                source[1] = @"\\172.28.253.21\build\Drop\Deployment_Products\Official\Engage_6.5";
-                string spSource = @"\\172.28.253.21\build\Drop\Engage6.5\Official";
+                source[0] = Official65Source;
+                source[1] = Official65DeploymentSource;
+                string spSource = Official65SpSource;
                 var servicePacks = Directory.GetDirectories(spSource, "ServicePack*");
                 source[2] = string.Format(@"{0}\Engage", GetPreLastItem(servicePacks, 2));
             }
             else if (engageVersion == 6.6 && build != null)
             {
-                string[] s = Directory.GetDirectories(@"\\172.28.253.21\build\AutoDeployment\MirageB", string.Format("Daily_{0}*", build));
+                string[] s = Directory.GetDirectories(DailyUPsFolder, string.Format("Daily_{0}*", build));
                  if (s.Length > 0)
                  {
                      source[0] = string.Format(@"{0}\NPS_Deployment\Packages", s[s.Length - 1]);
                  }
-                 string[] ndms = Directory.GetFiles(@"\\172.28.253.21\build\Drop\Deployment_Products\Under_RND_testing\Tools\", string.Format("NDM-{0}.zip", build));
-                 string[] srts = Directory.GetFiles(@"\\172.28.253.21\build\Drop\Deployment_Products\Under_RND_testing\Tools\", string.Format("SRT-{0}.zip", build));
+                 string[] ndms = Directory.GetFiles(DailyDeplymentSource, string.Format("NDM-{0}.zip", build));
+                 string[] srts = Directory.GetFiles(DailyDeplymentSource, string.Format("SRT-{0}.zip", build));
                  if (ndms.Length > 0 && srts.Length > 0)
                  {
                      source[1] = GetPreLastItem(ndms, 3);
@@ -202,27 +254,35 @@ namespace _8zip
         {
             string sourceFile = Path.Combine(sourcePath, fileName);
             string destFile = Path.Combine(targetPath, Path.GetFileName(fileName));
-            const long minimalFileSize = 1000;
-
+            
             if (isRecOnly)
             {
-                if (sourceFile.Contains("AIR") || sourceFile.Contains("Applications") || sourceFile.Contains("CTI")
-                || sourceFile.Contains("Data Mart") || sourceFile.Contains("Database") || sourceFile.Contains("Interactions Center")
-                || sourceFile.Contains("Logger") || sourceFile.Contains("Storage") || sourceFile.Contains("KAI")
-                || sourceFile.Contains("SQLAutoSetup2014_Enertprise") || sourceFile.Contains("Reporter") ||
-            sourceFile.Contains("xml") || sourceFile.Contains("NDM") || sourceFile.Contains("SRT") || Path.GetFileName(fileName).StartsWith("SP"))
-                    File.Copy(sourceFile, destFile, true);
+                foreach (var package in _recPackagesList)
+                {
+                    if (sourceFile.Contains(package))
+                    {
+                        File.Copy(sourceFile, destFile, true);
+                    }
+                }
             }
-            else
+            else 
             {
-                FileInfo f = new FileInfo(sourceFile);
-                if (f.Length > minimalFileSize && !sourceFile.Contains("Thai") && !sourceFile.Contains("Spanish") && !sourceFile.Contains("Russian")
-                    && !sourceFile.Contains("Swedish") && !sourceFile.Contains("Cantonese") && !sourceFile.Contains("English")
-                    && !sourceFile.Contains("French") && !sourceFile.Contains("German") && !sourceFile.Contains("Italian")
-                    && !sourceFile.Contains("Japanese") && !sourceFile.Contains("Korean") && !sourceFile.Contains("Polish")
-                    && !sourceFile.Contains("Portuguese") && !sourceFile.Contains("Turkish") && !sourceFile.Contains("Hindi")
-                    && !sourceFile.Contains("Hebrew") && !sourceFile.Contains("Biometrics"))
+                if (!sourceFile.Contains("SQLAutoSetup"))
+                {
+                    var f = new FileInfo(sourceFile);
+
+                    foreach (var package in _notUsedPackagesList)
+                    {
+                        if (sourceFile.Contains(package) && f.Length > MinimalFileSize)
+                        {
+                            File.Copy(sourceFile, destFile, true);
+                        }
+                    }                      
+                }
+                else if (sourceFile.Contains("SQL Auto Setup Ent 2014") || sourceFile.Contains("SQLAutoSetup2014_Enertprise"))
+                {
                     File.Copy(sourceFile, destFile, true);
+                }               
             }
         }
 
@@ -233,36 +293,6 @@ namespace _8zip
                            : string.Format(@"{0}\{1}", unZipPath, subFolder);
             return directory;
         }
-
-        //public void GetSP(string _unZipPath)
-        //{
-        //    OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
-        //    int maxProgressValue = 0;
-        //     BackgroundWorker worker = new BackgroundWorker();
-        //        worker.DoWork += (worker1, result) =>
-        //        {
-        //            var backgroundWorker = worker1 as BackgroundWorker;
-        //            if (backgroundWorker != null)
-        //                backgroundWorker.WorkerReportsProgress = true;
-                    
-        //            var source = GetSourcePath(6.5, null)[2];
-        //            var packages = Directory.GetFiles(source, "*.zip");
-        //            maxProgressValue += packages.Length;
-        //            var spDirectory = GetFolderToWork(_unZipPath, "ServicePacks");
-        //            OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(maxProgressValue));
-        //            foreach (var archive in packages)
-        //            {
-        //                GetPackages(source, spDirectory, archive);
-        //                OnRaiseProgressEvent(new ProgressEventArgs(1));
-        //            }
-        //        };
-        //        worker.RunWorkerCompleted += (s, p) =>
-        //        {
-        //            MessageBox.Show(Resources.ProgressBar_GetRecPackButton_Click_Done_);
-        //            OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
-        //        };
-        //        worker.RunWorkerAsync();
-        //}
 
         public string GetDeployment(double engageVersion, string buildVersion)
         {
@@ -284,7 +314,7 @@ namespace _8zip
                         OnRaiseProgressEvent(new ProgressEventArgs(1));
                         var archiveName = Path.GetFileNameWithoutExtension(archive);
                         path = string.Format(directory + @"\" + archiveName);
-                        if (path.Contains("NDM"))
+                        if (path != null && path.Contains("NDM"))
                         {
                             unZipPath = path;
                         }
@@ -310,7 +340,7 @@ namespace _8zip
                         OnRaiseProgressEvent(new ProgressEventArgs(1));
                     }
 
-                    if (path != null && path.Contains("NDM"))
+                    if (path != null && path.Contains("NDM") || path.Contains("SRT"))
                     {
                         unZipPath = path;
                     }
@@ -327,7 +357,7 @@ namespace _8zip
             return unZipPath;
         }
 
-        public void GetEngagePackages(double engageVersion, bool withSp, string buildVersion, string unZipPath)
+        public void GetEngagePackages(double engageVersion, bool withSp, bool isRecOnly, string buildVersion, string unZipPath)
         {
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
             int maxProgressValue = 1;
@@ -362,7 +392,7 @@ namespace _8zip
                     
                     foreach (var sp in packages)
                     {
-                        GetPackages(source, directory, sp);
+                        GetPackages(source, directory, sp, isRecOnly);
                         OnRaiseProgressEvent(new ProgressEventArgs(1));
                     }
                     foreach (var xml in Directory.GetFiles(source, "*.xml"))
@@ -383,19 +413,26 @@ namespace _8zip
                 BackgroundWorker worker = new BackgroundWorker();
                 worker.DoWork += (worker1, result) =>
                 {
-                    string source = GetSourcePath(6.6, buildVersion)[0];
-                    var packages = Directory.GetFiles(string.Format(source), "*.zip",
-                        SearchOption.AllDirectories);
-                    OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(packages.Length));
-                    var directory = GetFolderToWork(unZipPath, "Packages");
-                    foreach (var item in packages)
+                    try
                     {
-                        GetPackages(source, directory, item, false);
-                        OnRaiseProgressEvent(new ProgressEventArgs(1));
+                        string source = GetSourcePath(6.6, buildVersion)[0];
+                        var packages = Directory.GetFiles(string.Format(source), "*.zip",
+                            SearchOption.AllDirectories);
+                        OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(packages.Length));
+                        var directory = GetFolderToWork(unZipPath, "Packages");
+                        foreach (var item in packages)
+                        {
+                            GetPackages(source, directory, item, isRecOnly);
+                            OnRaiseProgressEvent(new ProgressEventArgs(1));
+                        }
+                        foreach (var xml in Directory.GetFiles(source, "*.xml"))
+                        {
+                            GetPackages(source, directory, xml);
+                        }
                     }
-                    foreach (var xml in Directory.GetFiles(source, "*.xml"))
-                    {
-                        GetPackages(source, directory, xml);
+                    catch (Exception ex)
+                    {                       
+                        MessageBox.Show(ex.Message);
                     }
                 };
                 worker.RunWorkerCompleted += (s, p) =>
@@ -455,9 +492,7 @@ namespace _8zip
                             {
                                 RemoveZip(archive);
                             }
-
                         }
-                        OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
                     }
 
                 };
@@ -465,7 +500,7 @@ namespace _8zip
                 worker.RunWorkerCompleted += (s, p) =>
                 {
                     MessageBox.Show(Resources.ProgressBar_GetRecPackButton_Click_Done_);
-                    OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
+                    OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
                 };
                 worker.RunWorkerAsync();
             }
