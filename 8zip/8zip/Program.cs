@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
-using _8zip.Properties;
 
 namespace _8zip
 {
@@ -16,10 +14,6 @@ namespace _8zip
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ProgressBar());
-
         }
-        
     }
-    
 }
-
