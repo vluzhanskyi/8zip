@@ -170,9 +170,9 @@ namespace _8zip
         {
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
             string unZipPath = null;
-            Sources sources = new Sources(engage);
+            var sources = new Sources(engage);
             var directory = Directory.GetCurrentDirectory();       
-            BackgroundWorker worker = new BackgroundWorker();
+            var worker = new BackgroundWorker();
             worker.DoWork += (worker1, result) =>
             {
                 foreach (var archive in sources.DEplymentSourcePath)
@@ -186,13 +186,10 @@ namespace _8zip
                     {
                         unZipPath = path;
                     }
-
                     ExtractFilesFromZip(dDestination[0], path);
                     RemoveZip(dDestination[0]);
                     OnRaiseProgressEvent(new ProgressEventArgs(1));
-
                 }
-
             };
             worker.RunWorkerCompleted += (s, p) =>
             {
@@ -206,13 +203,12 @@ namespace _8zip
         public void GetEngagePackages(Engage engage, Sources sources, bool isRecOnly, string unZipPath)
         {
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
-            var maxProgressValue = 1;
-            
+            var maxProgressValue = 1;           
             var directory = GetFolderToWork(unZipPath, "Packages");
             var packages = Directory.GetFiles(sources.PackageSourcePath, "*.zip", SearchOption.AllDirectories);
 
-                BackgroundWorker worker = new BackgroundWorker();
-                worker.DoWork += (worker1, result) =>
+            var worker = new BackgroundWorker();
+            worker.DoWork += (worker1, result) =>
                 {
                     var backgroundWorker = worker1 as BackgroundWorker;
                     if (backgroundWorker != null)
@@ -238,6 +234,7 @@ namespace _8zip
                         GetPackages(sources.PackageSourcePath, directory, sp, isRecOnly);
                         OnRaiseProgressEvent(new ProgressEventArgs(1));
                     }
+
                     foreach (var xml in Directory.GetFiles(sources.PackageSourcePath, "*.xml"))
                     {
                         GetPackages(sources.PackageSourcePath, directory, xml);
@@ -255,63 +252,60 @@ namespace _8zip
         public void ExtractAllPackages(string unZipPath)
         {
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
-            if (unZipPath.Length > unZipPath.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+            if (unZipPath.Length <= unZipPath.LastIndexOf("\\", StringComparison.Ordinal) + 1) return;
+            var directory = unZipPath.Substring(unZipPath.LastIndexOf("\\", StringComparison.Ordinal) + 1).Contains("NDM")
+                ? string.Format(unZipPath + @"\Packages")
+                : unZipPath;
+
+            var archives = Directory.GetFiles(directory, "*.zip");
+            OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(archives.Length));
+
+            var isExtracted = false;
+            if (archives.Length == 0)
             {
-                var directory = unZipPath.Substring(unZipPath.LastIndexOf("\\", StringComparison.Ordinal) + 1).Contains("NDM")
-                    ? string.Format(unZipPath + @"\Packages")
-                    : unZipPath;
-
-                var archives = Directory.GetFiles(directory, "*.zip");
-                OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(archives.Length));
-
-                var isExtracted = false;
-                if (archives.Length == 0)
-                {
-                    MessageBox.Show(Resources.ProgressBar_ExtractButton_Click___zip_was_not_found);
-                }
-                BackgroundWorker worker = new BackgroundWorker();
-                worker.DoWork += (worker1, result) =>
-                {
-                    var backgroundWorker = worker1 as BackgroundWorker;
-                    if (backgroundWorker != null) backgroundWorker.WorkerReportsProgress = true;
-
-                    foreach (var archive in archives)
-                    {
-                        try
-                        {
-                            ExtractFilesFromZip(archive, directory);
-                            OnRaiseProgressEvent(new ProgressEventArgs(1));
-                            isExtracted = true;
-
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(Resources.Program_Main_Fail_to_extract + archive + ex.Message);
-                        }
-                    }
-                    if (isExtracted)
-                    {
-                        DialogResult dialogResult = MessageBox.Show(Resources.ProgressBar_progressBar2_Click_Do_you_want_to_remove_zip_packages_,
-                            Resources.ProgressBar_progressBar2_Click_Done_,
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dialogResult == DialogResult.Yes)
-                        {
-                            foreach (string archive in archives)
-                            {
-                                RemoveZip(archive);
-                            }
-                        }
-                    }
-
-                };
-             
-                worker.RunWorkerCompleted += (s, p) =>
-                {
-                    MessageBox.Show(Resources.ProgressBar_GetRecPackButton_Click_Done_);
-                    OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
-                };
-                worker.RunWorkerAsync();
+                MessageBox.Show(Resources.ProgressBar_ExtractButton_Click___zip_was_not_found);
             }
+            var worker = new BackgroundWorker();
+            worker.DoWork += (worker1, result) =>
+            {
+                var backgroundWorker = worker1 as BackgroundWorker;
+                if (backgroundWorker != null) backgroundWorker.WorkerReportsProgress = true;
+
+                foreach (var archive in archives)
+                {
+                    try
+                    {
+                        ExtractFilesFromZip(archive, directory);
+                        OnRaiseProgressEvent(new ProgressEventArgs(1));
+                        isExtracted = true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(Resources.Program_Main_Fail_to_extract + archive + ex.Message);
+                    }
+                }
+                if (!isExtracted) return;
+                {
+                    DialogResult dialogResult = MessageBox.Show(Resources.ProgressBar_progressBar2_Click_Do_you_want_to_remove_zip_packages_,
+                        Resources.ProgressBar_progressBar2_Click_Done_,
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        foreach (string archive in archives)
+                        {
+                            RemoveZip(archive);
+                        }
+                    }
+                }
+            };
+             
+            worker.RunWorkerCompleted += (s, p) =>
+            {
+                MessageBox.Show(Resources.ProgressBar_GetRecPackButton_Click_Done_);
+                OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
+            };
+            worker.RunWorkerAsync();
         }
 
         protected virtual void OnRaiseUpdateFormEvent(UpdateFormArgs e)
