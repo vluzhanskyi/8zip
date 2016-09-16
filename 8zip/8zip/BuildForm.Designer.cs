@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuildForm));
             this.label1 = new System.Windows.Forms.Label();
             this.buildVersionTextBox = new System.Windows.Forms.TextBox();
             this.OkButton = new System.Windows.Forms.Button();
@@ -50,7 +51,6 @@
             this.buildVersionTextBox.Name = "buildVersionTextBox";
             this.buildVersionTextBox.Size = new System.Drawing.Size(264, 20);
             this.buildVersionTextBox.TabIndex = 1;
-            this.buildVersionTextBox.TextChanged += new System.EventHandler(this.buildVersionTextBox_TextChanged);
             // 
             // OkButton
             // 
@@ -83,7 +83,9 @@
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.buildVersionTextBox);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BuildForm";
+            this.ShowInTaskbar = false;
             this.Text = "BuildForm";
             this.ResumeLayout(false);
             this.PerformLayout();
