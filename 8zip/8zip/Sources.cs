@@ -35,7 +35,12 @@ namespace _8zip
                 if (engage.SpVersion == 0)
                 {
                     var servicePacks = Directory.GetDirectories(Official65SpSource, "ServicePack*");
+                    var sPs = servicePacks.Where(sp => Directory.GetFiles(string.Format(@"{0}\Engage", sp), "*.zip").Length != 0).ToList();
                     source[2] = string.Format(@"{0}\Engage", GetPreLastItem(servicePacks, 2));
+                    if (Directory.GetFiles(source[2], "*.zip").Length == 0)
+                    {
+                        source[2] = string.Format(@"{0}\Engage", GetPreLastItem(sPs, 2, true));
+                    }
                 }
                 else
                 {
@@ -73,7 +78,7 @@ namespace _8zip
             return deplymentSourcePath.ToArray();
         }
 
-        private string GetPreLastItem(IEnumerable<string> spStrings, int index)
+        private string GetPreLastItem(IEnumerable<string> spStrings, int index, bool isLast = false)
         {
             var spDict = new Dictionary<int, string>();
             foreach (var s in spStrings)
@@ -96,11 +101,15 @@ namespace _8zip
             var spList = spDict.Keys.ToList();
             spList.Sort();
             var spDictSorted = spList.ToDictionary(key => key, key => spDict[key]);
+            if (!isLast)
+            {
+                return spDictSorted.Count >= 2
+                    ? spDictSorted.Values.ToArray()[spDictSorted.Count - 2]
+                    : spDictSorted.Values.ToArray()[0];
+            }
             return spDictSorted.Count >= 2
-                ? spDictSorted.Values.ToArray()[spDictSorted.Count - 2]
+                ? spDictSorted.Values.ToArray()[spDictSorted.Count - 1]
                 : spDictSorted.Values.ToArray()[0];
-
-
         }
     }
 }
