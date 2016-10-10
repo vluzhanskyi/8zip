@@ -7,11 +7,11 @@ namespace _8zip
 {
     public class Sources
     {
-        private const string Official65Source = @"\\172.28.253.21\build\Drop\Engage6.5\Official\Server_side";
-        private const string Official65SpSource = @"\\172.28.253.21\build\Drop\Engage6.5\Official";
-        private const string Official65DeploymentSource = @"\\172.28.253.21\build\Drop\Deployment_Products\Official\Engage_6.5";
-        private const string DailyUPsFolder = @"\\172.28.253.21\build\AutoDeployment\MirageB";
-        private const string DailyDeplymentSource = @"\\172.28.253.21\build\Drop\Deployment_Products\Under_RND_testing\Tools\";
+        private const string Official65Source = @"\\Server_side";
+        private const string Official65SpSource = @"\\Official";
+        private const string Official65DeploymentSource = @"\\";
+        private const string DailyUPsFolder = @"\\B";
+        private const string DailyDeplymentSource = @"\\";
         private const double Epsilon = 0.01;
 
         public string PackageSourcePath { set; get; }
