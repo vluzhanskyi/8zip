@@ -141,4 +141,7 @@
   <data name="BuildForm_OkButton_Click_Input_data" xml:space="preserve">
     <value>Input data</value>
   </data>
+  <data name="ProgressBar_GetRecPackButton_Click_Initialization" xml:space="preserve">
+    <value>Initialization</value>
+  </data>
 </root>

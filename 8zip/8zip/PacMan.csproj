@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>_8zip</RootNamespace>
     <AssemblyName>PacMan</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -51,51 +51,51 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Archive Folder-96.ico</ApplicationIcon>
+    <ApplicationIcon>View\Archive Folder-96.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
       <HintPath>.\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildForm.cs">
+    <Compile Include="View\Actions.cs" />
+    <Compile Include="View\BuildForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BuildForm.Designer.cs">
+    <Compile Include="View\BuildForm.Designer.cs">
       <DependentUpon>BuildForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChangeMaxProgressValueEventArgs.cs" />
-    <Compile Include="Engage.cs" />
+    <Compile Include="CustomEvents\ChangeMaxProgressValueEventArgs.cs" />
+    <Compile Include="Sources\Engage.cs" />
+    <Compile Include="Sources\PacManconfigs.cs" />
+    <Compile Include="Controller\Processor.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProgressBar.cs">
+    <Compile Include="View\ProgressBar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProgressBar.Designer.cs">
+    <Compile Include="View\ProgressBar.Designer.cs">
       <DependentUpon>ProgressBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProgressEventArgs.cs" />
+    <Compile Include="CustomEvents\ProgressEventArgs.cs" />
+    <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources.cs" />
-    <Compile Include="UpdateFormArgs.cs" />
-    <Compile Include="ZipWrapper.cs" />
-    <EmbeddedResource Include="BuildForm.resx">
+    <Compile Include="CustomEvents\ShowExceptionMessageArks.cs" />
+    <Compile Include="Sources\EngageSources.cs" />
+    <Compile Include="CustomEvents\UpdateFormArgs.cs" />
+    <Compile Include="CustomEvents\UpdatePackageName.cs" />
+    <Compile Include="Controller\ZipWrapper.cs" />
+    <EmbeddedResource Include="View\BuildForm.resx">
       <DependentUpon>BuildForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProgressBar.resx">
+    <EmbeddedResource Include="View\ProgressBar.resx">
       <DependentUpon>ProgressBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -119,7 +119,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -134,7 +136,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Archive Folder-96.ico" />
+    <Content Include="View\Archive Folder-96.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

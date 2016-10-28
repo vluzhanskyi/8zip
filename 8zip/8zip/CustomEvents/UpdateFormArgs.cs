@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _8zip
+namespace _8zip.CustomEvents
 {
     public class UpdateFormArgs : EventArgs
     {

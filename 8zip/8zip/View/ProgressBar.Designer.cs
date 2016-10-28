@@ -1,4 +1,4 @@
-﻿namespace _8zip
+﻿namespace _8zip.View
 {
     partial class ProgressBar
     {
@@ -36,6 +36,10 @@
             this.GetDeploymentPack = new System.Windows.Forms.Button();
             this.radioButton66 = new System.Windows.Forms.RadioButton();
             this.withHotFixes = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CurrentProgressBar = new System.Windows.Forms.ProgressBar();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar2
@@ -86,10 +90,41 @@
             this.withHotFixes.UseVisualStyleBackColor = true;
             this.withHotFixes.CheckedChanged += new System.EventHandler(this.withHotFixes_CheckedChanged);
             // 
+            // label1
+            // 
+            this.label1.AllowDrop = true;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.AutoEllipsis = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label1.Name = "label1";
+            this.label1.UseCompatibleTextRendering = true;
+            // 
+            // CurrentProgressBar
+            // 
+            resources.ApplyResources(this.CurrentProgressBar, "CurrentProgressBar");
+            this.CurrentProgressBar.Name = "CurrentProgressBar";
+            // 
+            // linkLabel1
+            // 
+            resources.ApplyResources(this.linkLabel1, "linkLabel1");
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // ProgressBar
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.CurrentProgressBar);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.withHotFixes);
             this.Controls.Add(this.radioButton66);
             this.Controls.Add(this.GetDeploymentPack);
@@ -102,7 +137,6 @@
             this.MinimizeBox = false;
             this.Name = "ProgressBar";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Load += new System.EventHandler(this.ProgressBar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -118,5 +152,9 @@
         private System.Windows.Forms.Button GetDeploymentPack;
         private System.Windows.Forms.RadioButton radioButton66;
         private System.Windows.Forms.CheckBox withHotFixes;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar CurrentProgressBar;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label2;
     }
 }

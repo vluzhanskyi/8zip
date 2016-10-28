@@ -115,6 +115,15 @@ namespace _8zip.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialization.
+        /// </summary>
+        internal static string ProgressBar_GetRecPackButton_Click_Initialization {
+            get {
+                return ResourceManager.GetString("ProgressBar_GetRecPackButton_Click_Initialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ServicePack downloaded successfully.
         /// </summary>
         internal static string ProgressBar_GetRecPackButton_Click_ServicePack_downloaded_successfully {
