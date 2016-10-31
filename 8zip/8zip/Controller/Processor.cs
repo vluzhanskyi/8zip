@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using _8zip.CustomEvents;
 using _8zip.Sources;
@@ -15,7 +16,7 @@ namespace _8zip.Controller
             if (sourcePath == null || targetPath == null || fileName == null) return;
             string sourceFile = Path.Combine(sourcePath, fileName);
             string destFile = Path.Combine(targetPath, Path.GetFileName(fileName));
-
+            Downloader downloader = new Downloader();
             if (!isCleanInstallation)
             {
                 RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
@@ -27,7 +28,7 @@ namespace _8zip.Controller
                 {
                     if (sourceFile.Contains(package))
                     {
-                        DownloadPackage(sourceFile, destFile);
+                        downloader.DownloadPackage(sourceFile, destFile);
                     }
                 }
             }
@@ -40,59 +41,8 @@ namespace _8zip.Controller
 
                 if (isApproved)
                 {
-                    DownloadPackage(sourceFile, destFile);
+                    downloader.DownloadPackage(sourceFile, destFile);
                 }
-            }
-        }
-
-        private void DownloadPackage(string sourceFile, string destFile)
-        {
-            int buflen = 1024;
-            byte[] buf = new byte[buflen];
-            long totalBytesRead = 0;
-            int numReads = 0;
-            FileInfo srcFile = new FileInfo(sourceFile);
-            long fileLen = srcFile.Length;
-            FileInfo dstFile = new FileInfo(destFile);
-            if (dstFile.Exists)
-            {
-                dstFile.Delete();
-            }
-            try
-            {
-                using (FileStream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read))
-                {
-                    using (FileStream destStream = new FileStream(destFile, FileMode.CreateNew, FileAccess.ReadWrite))
-                    {
-                        while (true)
-                        {
-                            numReads++;
-                            int bytesRead = sourceStream.Read(buf, 0, buflen);
-                            if (bytesRead == 0) break;
-                            destStream.Write(buf, 0, bytesRead);
-
-                            totalBytesRead += bytesRead;
-                            if (numReads % 10 == 0)
-                            {
-                                var pctDone = totalBytesRead / (double)fileLen;
-                                var pctDoneRes = (int)(pctDone * 100);
-                                OnRaiseProgressEvent(new ProgressEventArgs(pctDoneRes, true));
-                            }
-
-                            if (bytesRead < buflen) break;
-                        }
-                        destStream.Close();
-                    }
-                    sourceStream.Close();
-                }
-                //  File.Copy(sourceFile, destFile, true);
-
-            }
-            catch (Exception e)
-            {
-                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty,
-                                                                        string.Format("Failed to copy {0} to {1}", sourceFile, destFile),
-                                                                        e.Message, null));
             }
         }
 

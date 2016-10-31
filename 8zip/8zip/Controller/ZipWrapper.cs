@@ -144,7 +144,6 @@ namespace _8zip.Controller
             var directory = unZipPath.Substring(unZipPath.LastIndexOf("\\", StringComparison.Ordinal) + 1).Contains("NDM")
                 ? string.Format(unZipPath + @"\Packages")
                 : unZipPath;
-
             int i = 0;
             int j = 0;
             var archives = Directory.GetFiles(directory, "*.zip");

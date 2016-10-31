@@ -37,16 +37,13 @@ namespace _8zip.Sources
                     var sPs = servicePacks.Where(sp => Directory.GetFiles(string.Format(@"{0}\Engage", sp), "*.zip").Length != 0).ToList();
                     source[2] = string.Format(@"{0}\Engage", GetPreLastItem(servicePacks, 2));
                     if (Directory.GetFiles(source[2], "*.zip").Length == 0)
-                    {
                         source[2] = string.Format(@"{0}\Engage", GetPreLastItem(sPs, 2, true));
-                    }
                 }
                 else
                 {
                     var servicePacks = Directory.GetDirectories(PacManconfigs.OfficialSpSource, string.Format("ServicePack{0}", engage.SpVersion));
                     source[2] = string.Format(@"{0}\Engage", servicePacks[0]);
                 }
-
             }
             else if (Math.Abs(engage.Version - 6.6) < Epsilon && engage.Buildversion != null)
             {
@@ -56,7 +53,6 @@ namespace _8zip.Sources
                     String.Format("Daily_{0}*", engage.SplashBuild));
                 var miniBusSources = Directory.GetDirectories(PacManconfigs.MiniBusSource,
                     string.Format("Daily_{0}*", engage.MiniBusBuild));
-
                 if (engage.Buildversion != String.Empty && sources.Length > 0)
                 {
                     source[0] = string.Format(@"{0}\NPS_Deployment\Packages", sources[sources.Length - 1]);
@@ -145,7 +141,6 @@ namespace _8zip.Sources
             var splashCSources = new List<string>();
             var sharedCsource = new List<string>();
             var miniBusSources = new List<string>();
-
             var sharedCxmls = new List<string>();
             var splashCxmls = new List<string>();
             var miniBusxmls = new List<string>();

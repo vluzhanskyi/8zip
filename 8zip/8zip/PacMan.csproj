@@ -66,6 +66,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Downloader.cs" />
     <Compile Include="View\Actions.cs" />
     <Compile Include="View\BuildForm.cs">
       <SubType>Form</SubType>
@@ -85,7 +86,7 @@
       <DependentUpon>ProgressBar.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomEvents\ProgressEventArgs.cs" />
-    <Compile Include="Prompt.cs" />
+    <Compile Include="View\Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomEvents\ShowExceptionMessageArks.cs" />
     <Compile Include="Sources\EngageSources.cs" />

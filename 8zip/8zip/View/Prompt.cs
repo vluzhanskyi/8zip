@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.Protocols;
-using System.Linq;
+﻿using System.DirectoryServices.Protocols;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security;
+using System.Security.Permissions;
+using System.Security.Policy;
 using System.Windows.Forms;
 
-namespace _8zip
+namespace _8zip.View
 {
     public static class Prompt
     {
@@ -41,7 +39,8 @@ namespace _8zip
                 try
                 {
                     connection.Credential = cred;
-                    DirectoryRequest req = new SearchRequest();
+                    PermissionSet perm;
+                    var req = new SearchRequest();
                     connection.SendRequest(req);
                 }
                 catch (LdapException e)
