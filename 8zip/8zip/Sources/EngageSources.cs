@@ -26,7 +26,7 @@ namespace _8zip.Sources
 
         private string[] GetEngageSourcePath(Engage engage)
         {
-            var source = new string[6];
+            var source = new string[7];
             if (Math.Abs(engage.Version - 6.5) < Epsilon)
             {
                 source[0] = PacManconfigs.OfficialSource;
@@ -53,6 +53,8 @@ namespace _8zip.Sources
                     String.Format("Daily_{0}*", engage.SplashBuild));
                 var miniBusSources = Directory.GetDirectories(PacManconfigs.MiniBusSource,
                     string.Format("Daily_{0}*", engage.MiniBusBuild));
+                var ncaSources = Directory.GetDirectories(PacManconfigs.NcaBuildSource,
+                    string.Format("Daily_{0}*", engage.NcaBuildVersion));
                 if (engage.Buildversion != String.Empty && sources.Length > 0)
                 {
                     source[0] = string.Format(@"{0}\NPS_Deployment\Packages", sources[sources.Length - 1]);
@@ -69,7 +71,10 @@ namespace _8zip.Sources
                 {
                     source[5] = string.Format(@"{0}\Packages", miniBusSources[miniBusSources.Length - 1]);
                 }
-
+                 if (engage.NcaBuildVersion != String.Empty && ncaSources.Length > 0)
+                {
+                    source[6] = string.Format(@"{0}\NPS_Deployment\Packages", ncaSources[ncaSources.Length - 1]);
+                }
                 source[1] = PacManconfigs.DailyDeplymentSource; 
             }
             return source;
@@ -91,7 +96,7 @@ namespace _8zip.Sources
                 }
             }
 
-            if (dPackages.Length != 0)
+            if (!dPackages.Contains(null))
             {
                 deplymentSourcePath = dPackages.Where(s => s.Contains("NDM-") || s.Contains("SRT-"));
             }
@@ -141,9 +146,18 @@ namespace _8zip.Sources
             var splashCSources = new List<string>();
             var sharedCsource = new List<string>();
             var miniBusSources = new List<string>();
+            var ncaBusSources = new List<string>();
+            var ncaCxmls = new List<string>();
             var sharedCxmls = new List<string>();
             var splashCxmls = new List<string>();
             var miniBusxmls = new List<string>();
+            if (PackageSourcePath[6] != null)
+            {
+                ncaBusSources = Directory.GetFiles(PackageSourcePath[6], "*.zip",
+                    SearchOption.AllDirectories).ToList();
+                ncaCxmls = Directory.GetFiles(PackageSourcePath[6], "*.xml",
+                    SearchOption.AllDirectories).ToList();
+            }
             if (PackageSourcePath[0] != null)
             {
                 Packages = Directory.GetFiles(PackageSourcePath[0], "*.zip",
@@ -176,6 +190,8 @@ namespace _8zip.Sources
             Packages.AddRange(sharedCsource);
             Packages.AddRange(splashCSources);
             Packages.AddRange(miniBusSources);
+            Packages.AddRange(ncaBusSources);
+            XmlList.AddRange(ncaCxmls);
             XmlList.AddRange(sharedCxmls);
             XmlList.AddRange(splashCxmls);
             XmlList.AddRange(miniBusxmls);
