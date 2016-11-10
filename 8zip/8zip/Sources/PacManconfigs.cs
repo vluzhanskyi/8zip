@@ -12,5 +12,6 @@ namespace _8zip.Sources
         public static string SharedCSource = ConfigurationManager.AppSettings.Get("SharedCSource");
         public static string SlashCSource = ConfigurationManager.AppSettings.Get("SlashCSource");
         public static string MiniBusSource = ConfigurationManager.AppSettings.Get("MiniBusSource");
+        public static string NcaBuildSource = ConfigurationManager.AppSettings.Get("NCASource"); 
     }
 }

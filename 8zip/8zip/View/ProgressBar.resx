@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="progressBar2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 133</value>
+    <value>12, 154</value>
   </data>
   <data name="progressBar2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>340, 23</value>
+    <value>408, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="progressBar2.TabIndex" type="System.Int32, mscorlib">
@@ -142,7 +142,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;progressBar2.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="get65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -169,13 +169,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;get65.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="GetRecPackButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="GetRecPackButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 37</value>
+    <value>12, 37</value>
   </data>
   <data name="GetRecPackButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 23</value>
@@ -196,10 +196,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GetRecPackButton.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="ExtractButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>257, 37</value>
+    <value>325, 37</value>
   </data>
   <data name="ExtractButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 23</value>
@@ -220,13 +220,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ExtractButton.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="GetDeploymentPack.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="GetDeploymentPack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>128, 37</value>
+    <value>204, 37</value>
   </data>
   <data name="GetDeploymentPack.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 23</value>
@@ -247,7 +247,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GetDeploymentPack.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="radioButton66.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -277,7 +277,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton66.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="withHotFixes.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -304,7 +304,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;withHotFixes.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
@@ -340,13 +340,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CurrentProgressBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 104</value>
+    <value>12, 125</value>
   </data>
   <data name="CurrentProgressBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>340, 23</value>
+    <value>408, 23</value>
   </data>
   <data name="CurrentProgressBar.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -361,13 +361,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CurrentProgressBar.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 180</value>
+    <value>76, 180</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 13</value>
@@ -385,13 +385,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 164</value>
+    <value>10, 180</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -412,6 +412,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GeSPOnlyButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GeSPOnlyButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 36</value>
+  </data>
+  <data name="GeSPOnlyButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 23</value>
+  </data>
+  <data name="GeSPOnlyButton.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="GeSPOnlyButton.Text" xml:space="preserve">
+    <value>GeSP only</value>
+  </data>
+  <data name="&gt;&gt;GeSPOnlyButton.Name" xml:space="preserve">
+    <value>GeSPOnlyButton</value>
+  </data>
+  <data name="&gt;&gt;GeSPOnlyButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GeSPOnlyButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GeSPOnlyButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -421,7 +448,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>372, 220</value>
+    <value>435, 234</value>
   </data>
   <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>No</value>

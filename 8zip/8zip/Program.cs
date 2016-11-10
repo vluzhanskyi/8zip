@@ -17,7 +17,7 @@ namespace _8zip
         {
             //var cred = WindowsIdentity.GetCurrent();
 
-            NetworkCredential credential = new NetworkCredential();
+            //NetworkCredential credential = new NetworkCredential();
             //bool haveAccess = false;
             //DirectoryInfo dir = new DirectoryInfo(@"\\172.28.253.21\build\");
             //try
@@ -41,10 +41,10 @@ namespace _8zip
             //{
                 
             //}
-            credential.UserName = "viacheslavl";
-            credential.Domain = "nice.com";
-            credential.Password = "1s4l1a0v5%";
-            Prompt.PerformSomeActionAsAdmin(credential);
+            //credential.UserName = "viacheslavl";
+            //credential.Domain = "nice.com";
+            //credential.Password = "1s4l1a0v5%";
+            //Prompt.PerformSomeActionAsAdmin(credential);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ProgressBar());           

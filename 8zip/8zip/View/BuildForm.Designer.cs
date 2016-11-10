@@ -40,6 +40,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.SplashTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.NCABuildVersionTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -60,7 +62,7 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(239, 205);
+            this.OkButton.Location = new System.Drawing.Point(239, 261);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 7;
@@ -73,7 +75,7 @@
             this.IsRecOnlyCheckBox.AutoSize = true;
             this.IsRecOnlyCheckBox.Checked = true;
             this.IsRecOnlyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IsRecOnlyCheckBox.Location = new System.Drawing.Point(15, 210);
+            this.IsRecOnlyCheckBox.Location = new System.Drawing.Point(15, 266);
             this.IsRecOnlyCheckBox.Name = "IsRecOnlyCheckBox";
             this.IsRecOnlyCheckBox.Size = new System.Drawing.Size(75, 17);
             this.IsRecOnlyCheckBox.TabIndex = 5;
@@ -83,7 +85,7 @@
             // IsCleanCheckBox
             // 
             this.IsCleanCheckBox.AutoSize = true;
-            this.IsCleanCheckBox.Location = new System.Drawing.Point(97, 211);
+            this.IsCleanCheckBox.Location = new System.Drawing.Point(97, 267);
             this.IsCleanCheckBox.Name = "IsCleanCheckBox";
             this.IsCleanCheckBox.Size = new System.Drawing.Size(61, 17);
             this.IsCleanCheckBox.TabIndex = 6;
@@ -112,7 +114,6 @@
             this.MiniBusTextBox.Name = "MiniBusTextBox";
             this.MiniBusTextBox.Size = new System.Drawing.Size(307, 20);
             this.MiniBusTextBox.TabIndex = 2;
-            this.MiniBusTextBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label3
             // 
@@ -122,7 +123,6 @@
             this.label3.Size = new System.Drawing.Size(245, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Enter the MiniBus build number (ex: 1.0.0501.340):";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // SplashTextBox
             // 
@@ -140,12 +140,31 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Enter the Splash build number (ex: 6.6.0001.120):";
             // 
+            // NCABuildVersionTextBox
+            // 
+            this.NCABuildVersionTextBox.Location = new System.Drawing.Point(11, 220);
+            this.NCABuildVersionTextBox.Name = "NCABuildVersionTextBox";
+            this.NCABuildVersionTextBox.Size = new System.Drawing.Size(304, 20);
+            this.NCABuildVersionTextBox.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 204);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(230, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Enter the NCA build number (ex: 6.6.0001.260):";
+            // 
             // BuildForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(323, 238);
+            this.ClientSize = new System.Drawing.Size(323, 296);
+            this.Controls.Add(this.NCABuildVersionTextBox);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.SplashTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.MiniBusTextBox);
@@ -163,6 +182,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "BuildForm";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.BuildForm_Loaded);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,5 +201,7 @@
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.TextBox SplashTextBox;
         private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.TextBox NCABuildVersionTextBox;
+        private System.Windows.Forms.Label label5;
     }
 }

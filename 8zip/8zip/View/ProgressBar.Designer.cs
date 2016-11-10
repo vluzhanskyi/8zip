@@ -40,6 +40,7 @@
             this.CurrentProgressBar = new System.Windows.Forms.ProgressBar();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
+            this.GeSPOnlyButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // progressBar2
@@ -117,10 +118,18 @@
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
+            // GeSPOnlyButton
+            // 
+            resources.ApplyResources(this.GeSPOnlyButton, "GeSPOnlyButton");
+            this.GeSPOnlyButton.Name = "GeSPOnlyButton";
+            this.GeSPOnlyButton.UseVisualStyleBackColor = true;
+            this.GeSPOnlyButton.Click += new System.EventHandler(this.GeSPOnlyButton_Click);
+            // 
             // ProgressBar
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.GeSPOnlyButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.CurrentProgressBar);
@@ -156,5 +165,6 @@
         private System.Windows.Forms.ProgressBar CurrentProgressBar;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button GeSPOnlyButton;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using _8zip.CustomEvents;
 using _8zip.Sources;
@@ -193,6 +192,59 @@ namespace _8zip.Controller
                 if (p.Error == null)
                 {
                     OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i), null, null, unZipPath));
+                    OnRiseExceptionEvent(new ShowExceptionMessageArks("Done!"));
+                    OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
+                }
+                else
+                {
+                    OnRiseExceptionEvent(new ShowExceptionMessageArks(p.Error.Message));
+                }
+            };
+            worker.RunWorkerAsync();
+        }
+
+        public void GetServicePack(Engage engage, string unZipPath)
+        {
+            OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
+            var maxProgressValue = 1;
+            int i = 0;
+            int j = 0;
+            var worker = new BackgroundWorker();
+            worker.DoWork += (worker1, result) =>
+            {
+                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty, Actions.Initialization,
+                    string.Empty, unZipPath));
+                var sources = new EngageSources(engage);
+                var sps = Directory.GetFiles(sources.SpSourcePath, "*.zip");
+                var backgroundWorker = worker1 as BackgroundWorker;
+                if (backgroundWorker != null)
+                {
+                    backgroundWorker.WorkerReportsProgress = true;
+                    backgroundWorker.WorkerSupportsCancellation = true;
+                }
+
+                maxProgressValue += sps.Length;
+                OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(maxProgressValue));
+                j = maxProgressValue - 1;
+                if (engage.WithSp)
+                {
+                    j++;
+                    i++;
+                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
+                        Actions.Downloading,
+                        Path.GetFileNameWithoutExtension(sps[0]), unZipPath));
+                    var spDirectory = GetFolderToWork(unZipPath, "ServicePacks");
+                    GetPackages(sources.SpSourcePath, spDirectory, sps[0]);
+                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));
+                }
+
+            };
+            worker.RunWorkerCompleted += (s, p) =>
+            {
+                if (p.Error == null)
+                {
+                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i), null, null,
+                        unZipPath));
                     OnRiseExceptionEvent(new ShowExceptionMessageArks("Done!"));
                     OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
                 }

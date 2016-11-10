@@ -54,7 +54,7 @@ namespace _8zip.View
 
             if (get65.Checked || withHotFixes.Checked)
             {
-                var engage = new Engage(6.5, null, null, null, null, withHotFixes.Checked);
+                var engage = new Engage(6.5, null, null, null, null, null, withHotFixes.Checked);
                 var build = new BuildForm(false, true, true);
                 var result = build.ShowDialog();
                 if (result == DialogResult.OK)
@@ -62,17 +62,15 @@ namespace _8zip.View
                     archiveMethods.GetEngagePackages(engage, _unZipPath, build.IsRecOnly, build.IsCleanInstallation);    
                 }                
             }
-           
-            if (radioButton66.Checked)
+
+            if (!radioButton66.Checked) return;
             {
                 var build = new BuildForm(true, true, true);
                 var result = build.ShowDialog();
-               if (result == DialogResult.OK && build.BuildVersion != null)
-                {
-                    var engage = new Engage(6.6, build.BuildVersion, build.SplashBuildVersion, build.AAgentBuildVersion, 
-                        build.MiniBusBuildVersion, withHotFixes.Checked);
-                    archiveMethods.GetEngagePackages(engage, _unZipPath, build.IsRecOnly, build.IsCleanInstallation);
-                }               
+                if (result != DialogResult.OK || build.BuildVersion == null) return;
+                var engage = new Engage(6.6, build.BuildVersion, build.SplashBuildVersion, build.AAgentBuildVersion, 
+                    build.MiniBusBuildVersion, build.NcaBuildVersion, withHotFixes.Checked);
+                archiveMethods.GetEngagePackages(engage, _unZipPath, build.IsRecOnly, build.IsCleanInstallation);
             }
         }
 
@@ -92,28 +90,29 @@ namespace _8zip.View
                 {
                     AAgentTextBox = {Enabled = false},
                     MiniBusTextBox = {Enabled = false},
-                    SplashTextBox = {Enabled = false}                   
+                    SplashTextBox = {Enabled = false},
+                    NCABuildVersionTextBox = {Enabled = false}   
                 };
                 if (build.ShowDialog() == DialogResult.OK)
                 {
-                    var engage = new Engage(6.5, null, null, null, null, false);
+                    var engage = new Engage(6.5, null, null, null, null, null, false);
                     archiveMethods.GetDeployment(engage, _unZipPath, build.IsCleanInstallation);
                 }
             }
             else if (radioButton66.Checked)
             {
-                var build = new BuildForm(true, false, true)
+                var build = new BuildForm(true, false, true, "Enter the build number (ex: 6.6.0001.160):")
                 {
                     AAgentTextBox = { Enabled = false },
                     MiniBusTextBox = { Enabled = false },
                     SplashTextBox = { Enabled = false },
-                    
+                    NCABuildVersionTextBox = { Enabled = false }   
                 };
                 if (build.ShowDialog() != DialogResult.OK)
                     return;
                 BuildVersion = build.BuildVersion;
                 var engage = new Engage(6.6, BuildVersion, build.SplashBuildVersion, build.AAgentBuildVersion,
-                    build.MiniBusBuildVersion, false);
+                    build.MiniBusBuildVersion, build.NcaBuildVersion, false);
                 archiveMethods.GetDeployment(engage, null, build.IsCleanInstallation);
             }       
         }
@@ -180,6 +179,7 @@ namespace _8zip.View
 
         private void withHotFixes_CheckedChanged(object sender, EventArgs e)
         {
+            GeSPOnlyButton.Enabled = true;
             GetRecPackButton.Enabled = true;
         }
 
@@ -188,7 +188,11 @@ namespace _8zip.View
             GetRecPackButton.Enabled = true;
             GetDeploymentPack.Enabled = true;
             if (radioButton66.Checked)
+            {
+                GeSPOnlyButton.Enabled = false;
                 withHotFixes.Enabled = false;
+            }
+                
         }
 
         private void ChangeFormControlsState(object sender, UpdateFormArgs e)
@@ -250,6 +254,24 @@ namespace _8zip.View
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(_unZipPath);
+        }
+
+        private void GeSPOnlyButton_Click(object sender, EventArgs e)
+        {
+            var archiveMethods = new Processor();
+            archiveMethods.UpdateFormEvent += ChangeFormControlsState;
+            archiveMethods.MaxValueChangedEvent += MaxPorgressValueChangedEventHandler;
+            archiveMethods.ProgesEvent += PorgressEventHandler;
+            archiveMethods.ExtratingProgressEvent += ExtratingPorgressEventHandler;
+            archiveMethods.ChangePackageNameEvent += ChangePackageName;
+            archiveMethods.ExceptionEvent += ShowExceptionMessageEventHandler;
+
+            if (get65.Checked || withHotFixes.Checked)
+            {
+                var engage = new Engage(6.5, null, null, null, null, null, withHotFixes.Checked);
+                archiveMethods.GetServicePack(engage, _unZipPath);
+
+            }
         }
 
     }
