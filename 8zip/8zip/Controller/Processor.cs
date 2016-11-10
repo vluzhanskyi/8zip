@@ -19,7 +19,7 @@ namespace _8zip.Controller
             if (!isCleanInstallation)
             {
                 RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
-                NotUsedPackagesList.Add("SQLAutoSetup2014_Enertprise");
+                NotUsedPackagesList.Add("SQLAutoSetup");
             }
             if (isRecOnly)
             {
