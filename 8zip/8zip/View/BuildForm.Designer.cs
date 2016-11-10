@@ -73,8 +73,6 @@
             // IsRecOnlyCheckBox
             // 
             this.IsRecOnlyCheckBox.AutoSize = true;
-            this.IsRecOnlyCheckBox.Checked = true;
-            this.IsRecOnlyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.IsRecOnlyCheckBox.Location = new System.Drawing.Point(15, 266);
             this.IsRecOnlyCheckBox.Name = "IsRecOnlyCheckBox";
             this.IsRecOnlyCheckBox.Size = new System.Drawing.Size(75, 17);
