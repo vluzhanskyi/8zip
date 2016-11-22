@@ -256,7 +256,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton66.Location" type="System.Drawing.Point, System.Drawing">
-    <value>257, 13</value>
+    <value>317, 12</value>
   </data>
   <data name="radioButton66.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 17</value>
@@ -313,7 +313,7 @@
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 63</value>
+    <value>18, 72</value>
   </data>
   <data name="label1.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>310, 200</value>
@@ -367,7 +367,7 @@
     <value>True</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 180</value>
+    <value>73, 186</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 13</value>
@@ -391,7 +391,7 @@
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 180</value>
+    <value>10, 185</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -414,31 +414,31 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="GeSPOnlyButton.Enabled" type="System.Boolean, mscorlib">
+  <data name="GetSPOnlyButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="GeSPOnlyButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="GetSPOnlyButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 36</value>
   </data>
-  <data name="GeSPOnlyButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="GetSPOnlyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 23</value>
   </data>
-  <data name="GeSPOnlyButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="GetSPOnlyButton.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="GeSPOnlyButton.Text" xml:space="preserve">
+  <data name="GetSPOnlyButton.Text" xml:space="preserve">
     <value>GeSP only</value>
   </data>
-  <data name="&gt;&gt;GeSPOnlyButton.Name" xml:space="preserve">
-    <value>GeSPOnlyButton</value>
+  <data name="&gt;&gt;GetSPOnlyButton.Name" xml:space="preserve">
+    <value>GetSPOnlyButton</value>
   </data>
-  <data name="&gt;&gt;GeSPOnlyButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;GetSPOnlyButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GeSPOnlyButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GetSPOnlyButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;GeSPOnlyButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;GetSPOnlyButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -448,7 +448,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>435, 234</value>
+    <value>435, 225</value>
   </data>
   <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>No</value>

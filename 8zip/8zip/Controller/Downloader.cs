@@ -4,7 +4,7 @@ using _8zip.CustomEvents;
 
 namespace _8zip.Controller
 {
-    public class Downloader : ZipWrapper
+    public class Downloader : Processor
     {
         public void DownloadPackage(string sourceFile, string destFile)
         {
@@ -37,7 +37,8 @@ namespace _8zip.Controller
                             {
                                 var pctDone = totalBytesRead / (double)fileLen;
                                 var pctDoneRes = (int)(pctDone * 100);
-                                OnRaiseProgressEvent(new ProgressEventArgs(pctDoneRes, true));
+
+                                OnProgressEvent(null, new ProgressEventArgs(pctDoneRes, true));
                             }
 
                             if (bytesRead < buflen) break;
@@ -51,10 +52,11 @@ namespace _8zip.Controller
             }
             catch (Exception e)
             {
-                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty,
-                                                                        string.Format("Failed to copy {0} to {1}", sourceFile, destFile),
-                                                                        e.Message, null));
+                OnRiseExceptionEvent(null, new ShowExceptionMessageArks(
+                    string.Format("Failed to copy {0} to {1} \n Exception: {2}", sourceFile,
+                    destFile, e.Message)));
             }
         }
+
     }
 }

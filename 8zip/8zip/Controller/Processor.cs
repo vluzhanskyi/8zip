@@ -1,71 +1,89 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Ionic.Zip;
 using _8zip.CustomEvents;
 using _8zip.Sources;
 using _8zip.View;
 
 namespace _8zip.Controller
 {
-    public class Processor : ZipWrapper
+    public class Processor
     {
-        private void GetPackages(string sourcePath, string targetPath, string fileName, bool isRecOnly = true, bool isCleanInstallation = false)
+
+        public event EventHandler<ProgressEventArgs> ProgressEvent;
+        public event EventHandler<ExtractProgressEventArgs> ExtratingProgressEvent;
+        public event EventHandler<ChangeMaxProgressValueEventArgs> MaxValueChangedEvent;
+        public event EventHandler<UpdateFormArgs> UpdateFormEvent;
+        public event EventHandler<UpdatePackageNameArgs> ChangePackageNameEvent;
+        public event EventHandler<ShowExceptionMessageArks> ExceptionEvent;
+        protected static List<string> RecPackagesList;
+        protected static List<string> NotUsedPackagesList;
+        internal const long MinimalFileSize = 1000;
+
+        public Processor()
+
         {
-            if (sourcePath == null || targetPath == null || fileName == null) return;
-            string sourceFile = Path.Combine(sourcePath, fileName);
-            string destFile = Path.Combine(targetPath, Path.GetFileName(fileName));
-            Downloader downloader = new Downloader();
-            if (!isCleanInstallation)
+            RecPackagesList = new List<string>
             {
-                RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
-                NotUsedPackagesList.Add("SQLAutoSetup");
-            }
-            if (isRecOnly)
-            {
-                foreach (var package in RecPackagesList)
-                {
-                    if (sourceFile.Contains(package))
-                    {
-                        downloader.DownloadPackage(sourceFile, destFile);
-                    }
-                }
-            }
-            else
-            {
-                var f = new FileInfo(sourceFile);
+                "AIR",
+                "Applications",
+                "CTI",
+                "Data Mart",
+                "Database",
+                "Interactions Center",
+                "Logger",
+                "Storage",
+                "KAI",
+                "SQLAutoSetup2014_Enertprise",
+                "Reporter",
+                "xml",
+                "NDM",
+                "SRT",
+                "SP",
+                "Authentication Agent",
+                "Authentication Spotlight",
+                "Engage Search",
+                "BUS"
+            };
 
-                var isApproved =
-                    NotUsedPackagesList.All(package => !sourceFile.Contains(package) && f.Length >= MinimalFileSize);
-
-                if (isApproved)
-                {
-                    downloader.DownloadPackage(sourceFile, destFile);
-                }
-            }
-        }
-
-        private string GetFolderToWork(string unZipPath, string subFolder)
-        {
-            var directory = !unZipPath.Contains("NDM")
-                           ? unZipPath
-                           : string.Format(@"{0}\{1}", unZipPath, subFolder);
-            if (!Directory.Exists(directory))
+            NotUsedPackagesList = new List<string>
             {
-                Directory.CreateDirectory(directory);
-            }
-            return directory;
+                "Thai",
+                "Spanish",
+                "Russian",
+                "Swedish",
+                "Cantonese",
+                "English",
+                "French",
+                "German",
+                "Italian",
+                "Japanese",
+                "Korean",
+                "Polish",
+                "Portuguese",
+                "Turkish",
+                "Hindi",
+                "Hebrew",
+                "Chinese",
+                "Biometrics",
+                "2012",
+                "Standart"
+            };  
         }
 
         public void GetDeployment(Engage engage, string unZipPath, bool isCleanInstallation)
         {
+            var unzipper = new ZipWrapper();
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
             int i = 0;
             int j = 0;
-            var worker = new BackgroundWorker {WorkerSupportsCancellation = true};
+            var worker = new BackgroundWorker { WorkerSupportsCancellation = true };
             worker.DoWork += (worker1, result) =>
             {
-                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(null, Actions.Initialization, string.Empty, unZipPath));
+                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(null, Actions.Initialization, String.Empty, unZipPath));
                 var sources = new EngageSources(engage);
                 if (sources.DEplymentSourcePath == null) return;
                 var directory = Directory.GetCurrentDirectory();
@@ -74,39 +92,44 @@ namespace _8zip.Controller
                     sources.DEplymentSourcePath = sources.DEplymentSourcePath.Where(e => !e.Contains("SRT")).ToArray();
                 }
                 j = sources.DEplymentSourcePath.Length;
-                OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(j*2));
+                OnRaiseMaxProgressValueChangedEvent(new ChangeMaxProgressValueEventArgs(j * 2));
                 foreach (var archive in sources.DEplymentSourcePath)
                 {
                     i++;
                     var archiveName = Path.GetFileNameWithoutExtension(archive);
-                    var path = string.Format(directory + @"\" + archiveName);
+                    var sourcePackage = string.Format(directory + @"\" + Path.GetFileName(archive));
+                    var path = String.Format(directory + @"\" + archiveName);
                     if (path.Contains("NDM") || path.Contains("SRT"))
                     {
                         unZipPath = path;
                     }
-                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
-                        Actions.Downloading,
-                        Path.GetFileNameWithoutExtension(archive), directory));
+                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", i, j),
+                    Actions.Downloading,
+                    Path.GetFileNameWithoutExtension(archive), unZipPath));
+
                     GetPackages(archive, directory, archive);
-                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));                  
-                    var sourcePackage = string.Format(directory + @"\" + Path.GetFileName(archive));                  
-                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
-                        Actions.Extracting,
-                        Path.GetFileNameWithoutExtension(archive), unZipPath));
-                    ExtractFilesFromZip(sourcePackage, path);
-                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
+                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
+
+                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", i, j),
+                            Actions.Extracting,
+                            Path.GetFileNameWithoutExtension(archive), unZipPath));
+
+                    unzipper.ExtractFilesFromZip(sourcePackage, path);
+
+                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", i, j),
                         Actions.Removing,
                         Path.GetFileNameWithoutExtension(archive), unZipPath));
-                    RemoveZip(sourcePackage);
-                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));
+
+                    unzipper.RemoveZip(sourcePackage);
+                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
             };
             worker.RunWorkerCompleted += (s, p) =>
             {
                 OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
-                                                                        string.Empty,
-                                                                        Path.GetFileNameWithoutExtension(string.Empty), unZipPath));
-                OnRiseExceptionEvent(p.Error != null
+                                                                        String.Empty,
+                                                                        Path.GetFileNameWithoutExtension(String.Empty), unZipPath));
+                OnRiseExceptionEvent(null, p.Error != null
                     ? new ShowExceptionMessageArks(p.Error.Message)
                     : new ShowExceptionMessageArks("Done!"));
                 OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
@@ -116,6 +139,7 @@ namespace _8zip.Controller
 
         public void GetEngagePackages(Engage engage, string unZipPath, bool isRecOnly, bool isCleanInstallation)
         {
+            var unzipper = new ZipWrapper();
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
             var maxProgressValue = 1;
             int i = 0;
@@ -123,7 +147,7 @@ namespace _8zip.Controller
             var worker = new BackgroundWorker();
             worker.DoWork += (worker1, result) =>
             {
-                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty, Actions.Initialization, string.Empty, unZipPath));
+                OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty, Actions.Initialization, String.Empty, unZipPath));
                 var sources = new EngageSources(engage);
                 var xmls = sources.XmlList;
                 var packages = sources.Packages;
@@ -149,11 +173,11 @@ namespace _8zip.Controller
                                                                             Path.GetFileNameWithoutExtension(sps[0]), unZipPath));
                     var spDirectory = GetFolderToWork(unZipPath, "ServicePacks");
                     GetPackages(sources.SpSourcePath, spDirectory, sps[0], isRecOnly, isCleanInstallation);
-                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));
+                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
                 else
                 {
-                    OnRaiseProgressEvent(new ProgressEventArgs(2, false));
+                    OnProgressEvent(new object(), new ProgressEventArgs(2, false));
                 }
                 foreach (var xml in xmls)
                 {
@@ -162,7 +186,7 @@ namespace _8zip.Controller
                                                                             Actions.Downloading,
                                                                             Path.GetFileNameWithoutExtension(xml), unZipPath));
                     GetPackages(xml, directory, xml);
-                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));
+                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
                 foreach (var package in packages)
                 {
@@ -177,13 +201,13 @@ namespace _8zip.Controller
                         OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
                                                                             Actions.Extracting,
                                                                             Path.GetFileNameWithoutExtension(package), unZipPath));
-                        ExtractFilesFromZip(package, directory);
+                        unzipper.ExtractFilesFromZip(package, directory);
                         OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
                                                                             Actions.Removing, Path.GetFileNameWithoutExtension(package),
                                                                             unZipPath));
-                        RemoveZip(resultedFilePath);
+                        unzipper.RemoveZip(resultedFilePath);
                     }
-                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));
+                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
 
             };
@@ -192,12 +216,12 @@ namespace _8zip.Controller
                 if (p.Error == null)
                 {
                     OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i), null, null, unZipPath));
-                    OnRiseExceptionEvent(new ShowExceptionMessageArks("Done!"));
+                    OnRiseExceptionEvent(null, new ShowExceptionMessageArks("Done!"));
                     OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
                 }
                 else
                 {
-                    OnRiseExceptionEvent(new ShowExceptionMessageArks(p.Error.Message));
+                    OnRiseExceptionEvent(null, new ShowExceptionMessageArks(p.Error.Message));
                 }
             };
             worker.RunWorkerAsync();
@@ -213,7 +237,7 @@ namespace _8zip.Controller
             worker.DoWork += (worker1, result) =>
             {
                 OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty, Actions.Initialization,
-                    string.Empty, unZipPath));
+                    String.Empty, unZipPath));
                 var sources = new EngageSources(engage);
                 var sps = Directory.GetFiles(sources.SpSourcePath, "*.zip");
                 var backgroundWorker = worker1 as BackgroundWorker;
@@ -235,7 +259,7 @@ namespace _8zip.Controller
                         Path.GetFileNameWithoutExtension(sps[0]), unZipPath));
                     var spDirectory = GetFolderToWork(unZipPath, "ServicePacks");
                     GetPackages(sources.SpSourcePath, spDirectory, sps[0]);
-                    OnRaiseProgressEvent(new ProgressEventArgs(1, false));
+                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
 
             };
@@ -245,15 +269,137 @@ namespace _8zip.Controller
                 {
                     OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i), null, null,
                         unZipPath));
-                    OnRiseExceptionEvent(new ShowExceptionMessageArks("Done!"));
+                    OnRiseExceptionEvent(null, new ShowExceptionMessageArks("Done!"));
                     OnRaiseUpdateFormEvent(new UpdateFormArgs(true));
                 }
                 else
                 {
-                    OnRiseExceptionEvent(new ShowExceptionMessageArks(p.Error.Message));
+                    OnRiseExceptionEvent(null, new ShowExceptionMessageArks(p.Error.Message));
                 }
             };
             worker.RunWorkerAsync();
+        }
+
+        public void UnzipPackages(string unzipPath)
+        {
+            var unzipper = new ZipWrapper();
+            unzipper.ExtratingProgressEvent += OnRaiseExtractProgressEvent;
+            unzipper.ExceptionEvent += OnRiseExceptionEvent;
+            unzipper.ExtractAllPackages(unzipPath);
+
+        }
+
+        private void GetPackages(string sourcePath, string targetPath, string fileName, bool isRecOnly = true, bool isCleanInstallation = false)
+        {
+            if (sourcePath == null || targetPath == null || fileName == null) return;
+            string sourceFile = Path.Combine(sourcePath, fileName);
+            string destFile = Path.Combine(targetPath, Path.GetFileName(fileName));
+            Downloader downloader = new Downloader();
+            downloader.ProgressEvent += OnProgressEvent;
+            downloader.ExceptionEvent += OnRiseExceptionEvent;
+            ChangePackageNameEvent += downloader.ChangePackageNameEvent;
+            if (!isCleanInstallation)
+            {
+                RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
+                NotUsedPackagesList.Add("SQLAutoSetup");
+            }
+            if (isRecOnly)
+            {
+                foreach (var package in RecPackagesList)
+                {
+                    if (sourceFile.Contains(package))
+                    {
+                        downloader.DownloadPackage(sourceFile, destFile);
+                    }
+                }
+            }
+
+            else
+            {
+                var f = new FileInfo(sourceFile);
+
+                var isApproved =
+                    NotUsedPackagesList.All(package => !sourceFile.Contains(package) && f.Length >= MinimalFileSize);
+
+                if (isApproved)
+                {
+                    downloader.DownloadPackage(sourceFile, destFile);
+                }
+            }
+        }
+
+        private static string GetFolderToWork(string unZipPath, string subFolder)
+        {
+            var directory = !unZipPath.Contains("NDM")
+                           ? unZipPath
+                           : String.Format(@"{0}\{1}", unZipPath, subFolder);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            return directory;
+        }
+
+        protected virtual void OnRiseExceptionEvent(object sender, ShowExceptionMessageArks showExceptionMessageArks)
+        {
+            EventHandler<ShowExceptionMessageArks> handler = ExceptionEvent;
+
+            if (handler != null)
+            {
+                handler(this, showExceptionMessageArks);
+            }
+        }
+
+        protected virtual void OnRiseChangePackageNameEvent(UpdatePackageNameArgs updatePackageNameArgs)
+        {
+            EventHandler<UpdatePackageNameArgs> handler = ChangePackageNameEvent;
+
+            if (handler != null)
+            {
+                handler(this, updatePackageNameArgs);
+            }
+            
+        }
+
+        protected virtual void OnRaiseUpdateFormEvent(UpdateFormArgs e)
+        {
+            EventHandler<UpdateFormArgs> handler = UpdateFormEvent;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+
+        }
+
+        internal void OnRaiseExtractProgressEvent(object sender, ExtractProgressEventArgs e)
+        {
+            EventHandler<ExtractProgressEventArgs> handler = ExtratingProgressEvent;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected void OnProgressEvent(object sender, ProgressEventArgs progressEventArgs)
+        {
+            EventHandler<ProgressEventArgs> handler = ProgressEvent;
+
+            if (handler != null)
+            {
+                handler(this, progressEventArgs);
+            }
+        }
+
+        protected virtual void OnRaiseMaxProgressValueChangedEvent(ChangeMaxProgressValueEventArgs e)
+        {
+            EventHandler<ChangeMaxProgressValueEventArgs> handler = MaxValueChangedEvent;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
     }
 }
