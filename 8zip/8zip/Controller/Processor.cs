@@ -22,6 +22,7 @@ namespace _8zip.Controller
         protected static List<string> RecPackagesList;
         protected static List<string> NotUsedPackagesList;
         internal const long MinimalFileSize = 1000;
+        private readonly ZipWrapper _unzipper;
 
         public Processor()
 
@@ -71,12 +72,19 @@ namespace _8zip.Controller
                 "Biometrics",
                 "2012",
                 "Standart"
-            };  
+            };
+
+            _unzipper = new ZipWrapper
+            {
+                ExceptionEvent = ExceptionEvent,
+                ExtratingProgressEvent = ExtratingProgressEvent,
+                ChangePackageNameEvent = ChangePackageNameEvent
+            };
         }
 
         public void GetDeployment(Engage engage, string unZipPath, bool isCleanInstallation)
         {
-            var unzipper = new ZipWrapper();
+            
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
             int i = 0;
             int j = 0;
@@ -114,13 +122,13 @@ namespace _8zip.Controller
                             Actions.Extracting,
                             Path.GetFileNameWithoutExtension(archive), unZipPath));
 
-                    unzipper.ExtractFilesFromZip(sourcePackage, path);
+                    _unzipper.ExtractFilesFromZip(sourcePackage, path);
 
                     OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", i, j),
                         Actions.Removing,
                         Path.GetFileNameWithoutExtension(archive), unZipPath));
 
-                    unzipper.RemoveZip(sourcePackage);
+                    _unzipper.RemoveZip(sourcePackage);
                     OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
             };
@@ -139,7 +147,6 @@ namespace _8zip.Controller
 
         public void GetEngagePackages(Engage engage, string unZipPath, bool isRecOnly, bool isCleanInstallation)
         {
-            var unzipper = new ZipWrapper();
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
             var maxProgressValue = 1;
             int i = 0;
@@ -201,11 +208,11 @@ namespace _8zip.Controller
                         OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
                                                                             Actions.Extracting,
                                                                             Path.GetFileNameWithoutExtension(package), unZipPath));
-                        unzipper.ExtractFilesFromZip(package, directory);
+                        _unzipper.ExtractFilesFromZip(package, directory);
                         OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
                                                                             Actions.Removing, Path.GetFileNameWithoutExtension(package),
                                                                             unZipPath));
-                        unzipper.RemoveZip(resultedFilePath);
+                        _unzipper.RemoveZip(resultedFilePath);
                     }
                     OnProgressEvent(new object(), new ProgressEventArgs(1, false));
                 }
@@ -237,7 +244,7 @@ namespace _8zip.Controller
             worker.DoWork += (worker1, result) =>
             {
                 OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty, Actions.Initialization,
-                    String.Empty, unZipPath));
+                    string.Empty, unZipPath));
                 var sources = new EngageSources(engage);
                 var sps = Directory.GetFiles(sources.SpSourcePath, "*.zip");
                 var backgroundWorker = worker1 as BackgroundWorker;
@@ -282,11 +289,7 @@ namespace _8zip.Controller
 
         public void UnzipPackages(string unzipPath)
         {
-            var unzipper = new ZipWrapper();
-            unzipper.ExtratingProgressEvent += OnRaiseExtractProgressEvent;
-            unzipper.ExceptionEvent += OnRiseExceptionEvent;
-            unzipper.ExtractAllPackages(unzipPath);
-
+            _unzipper.ExtractAllPackages(unzipPath);
         }
 
         private void GetPackages(string sourcePath, string targetPath, string fileName, bool isRecOnly = true, bool isCleanInstallation = false)
@@ -332,7 +335,7 @@ namespace _8zip.Controller
         {
             var directory = !unZipPath.Contains("NDM")
                            ? unZipPath
-                           : String.Format(@"{0}\{1}", unZipPath, subFolder);
+                           : string.Format(@"{0}\{1}", unZipPath, subFolder);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
