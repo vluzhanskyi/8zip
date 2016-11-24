@@ -22,13 +22,13 @@ namespace _8zip
             string source = null;
             string packageDestination = null;
             string unzipDestination = null;
-            args = new[]
-            {
-                 @"-DU",
-                 @"source = D:\GitFolder\NewRepo\8zip\8zip\8zip\bin\Debug",
-                  @"Packagedestination = D:\Share_Slav\WatsonNew03112016",
-                  @"Unzipdestination = D:\Share_Slav\WatsonNew03112016\Result"
-            };
+            //args = new[]
+            //{
+            //     @"-UR",
+            //     @"source = D:\GitFolder\NewRepo\8zip\8zip\8zip\bin\Debug",
+            //      @"Packagedestination = D:\Share_Slav\WatsonNew03112016",
+            //      @"Unzipdestination = D:\Share_Slav\WatsonNew03112016\Result"
+            //};
             if (args.Any())
             {
                 foreach (var arg in args)
@@ -60,7 +60,7 @@ namespace _8zip
                         Console.WriteLine(e.ToString());
                     }
                 }
-                if (actionType != null && (actionType.Contains("-d") || actionType.Contains("-D")))
+                if (actionType != null && (actionType.IndexOf("d", StringComparison.InvariantCultureIgnoreCase) >= 0))
                 {
                     try
                     {
@@ -77,15 +77,24 @@ namespace _8zip
                         Console.WriteLine(e.ToString());
                     }
 
-                    if (actionType.Contains("u") || actionType.Contains("U"))
-                    {
-                        ZipWrapper zip = new ZipWrapper();
-                        if (packageDestination != null)
-                            foreach (var archive in Directory.GetFiles(packageDestination, "*.zip"))
-                            {
-                                zip.ExtractFilesFromZip(archive, unzipDestination);
-                            }
-                    }
+                }
+                if (actionType != null && actionType.IndexOf("u", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
+                    ZipWrapper zip = new ZipWrapper();
+                    if (packageDestination != null)
+                        foreach (var archive in Directory.GetFiles(packageDestination, "*.zip"))
+                        {
+                            zip.ExtractFilesFromZip(archive, unzipDestination);
+                        }
+                }
+                if (actionType != null && actionType.IndexOf("r", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
+                    ZipWrapper zip = new ZipWrapper();
+                    if (packageDestination != null)
+                        foreach (var archive in Directory.GetFiles(packageDestination, "*.zip"))
+                        {
+                            zip.RemoveZip(archive);
+                        }
                 }
             }
             else
