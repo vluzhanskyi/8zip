@@ -1,0 +1,1 @@
+PacMan.exe -DU source=D:\GitFolder\NewRepo\8zip\8zip\8zip\bin\Debug Packagedestination=D:\Share_Slav\WatsonNew03112016 Unzipdestination=D:\Share_Slav\WatsonNew03112016\Result

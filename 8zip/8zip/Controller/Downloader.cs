@@ -4,7 +4,7 @@ using _8zip.CustomEvents;
 
 namespace _8zip.Controller
 {
-    public class Downloader : Processor
+    public class Downloader : EventHandler
     {
         public void DownloadPackage(string sourceFile, string destFile)
         {

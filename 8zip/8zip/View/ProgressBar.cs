@@ -7,6 +7,7 @@ using _8zip.Controller;
 using _8zip.CustomEvents;
 using _8zip.Properties;
 using _8zip.Sources;
+using EventHandler = _8zip.Controller.EventHandler;
 
 namespace _8zip.View
 {
@@ -24,12 +25,12 @@ namespace _8zip.View
             InitializeComponent();
             GetUnzipDirectory();
             _processor = new Processor();
-            _processor.UpdateFormEvent += ChangeFormControlsState;
-            _processor.MaxValueChangedEvent += MaxPorgressValueChangedEventHandler;
-            _processor.ProgressEvent += PorgressEventHandler;
-            _processor.ExtratingProgressEvent += ExtratingPorgressEventHandler;
-            _processor.ChangePackageNameEvent += ChangePackageName;
-            _processor.ExceptionEvent += ShowExceptionMessageEventHandler;
+            EventHandler.UpdateFormEvent += ChangeFormControlsState;
+            EventHandler.MaxValueChangedEvent += MaxPorgressValueChangedEventHandler;
+            EventHandler.ProgressEvent += PorgressEventHandler;
+            EventHandler.ExtratingProgressEvent += ExtratingPorgressEventHandler;
+            EventHandler.ChangePackageNameEvent += ChangePackageName;
+            EventHandler.ExceptionEvent += ShowExceptionMessageEventHandler;
 
             withHotFixes.Enabled = false;
             label1.BackColor = DefaultBackColor;
@@ -252,12 +253,12 @@ namespace _8zip.View
 
         private void GeSPOnlyButton_Click(object sender, EventArgs e)
         {
-            _processor.UpdateFormEvent += ChangeFormControlsState;
-            _processor.MaxValueChangedEvent += MaxPorgressValueChangedEventHandler;
-            _processor.ProgressEvent += PorgressEventHandler;
-            _processor.ExtratingProgressEvent += ExtratingPorgressEventHandler;
-            _processor.ChangePackageNameEvent += ChangePackageName;
-            _processor.ExceptionEvent += ShowExceptionMessageEventHandler;
+            EventHandler.UpdateFormEvent += ChangeFormControlsState;
+            EventHandler.MaxValueChangedEvent += MaxPorgressValueChangedEventHandler;
+            EventHandler.ProgressEvent += PorgressEventHandler;
+            EventHandler.ExtratingProgressEvent += ExtratingPorgressEventHandler;
+            EventHandler.ChangePackageNameEvent += ChangePackageName;
+            EventHandler.ExceptionEvent += ShowExceptionMessageEventHandler;
 
             if (get65.Checked || withHotFixes.Checked)
             {

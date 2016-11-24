@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Downloader.cs" />
+    <Compile Include="Controller\EventHandler.cs" />
     <Compile Include="View\Actions.cs" />
     <Compile Include="View\BuildForm.cs">
       <SubType>Form</SubType>

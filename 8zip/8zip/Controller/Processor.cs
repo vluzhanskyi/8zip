@@ -10,15 +10,8 @@ using _8zip.View;
 
 namespace _8zip.Controller
 {
-    public class Processor
+    public class Processor : EventHandler
     {
-
-        public event EventHandler<ProgressEventArgs> ProgressEvent;
-        public event EventHandler<ExtractProgressEventArgs> ExtratingProgressEvent;
-        public event EventHandler<ChangeMaxProgressValueEventArgs> MaxValueChangedEvent;
-        public event EventHandler<UpdateFormArgs> UpdateFormEvent;
-        public event EventHandler<UpdatePackageNameArgs> ChangePackageNameEvent;
-        public event EventHandler<ShowExceptionMessageArks> ExceptionEvent;
         protected static List<string> RecPackagesList;
         protected static List<string> NotUsedPackagesList;
         internal const long MinimalFileSize = 1000;
@@ -74,12 +67,7 @@ namespace _8zip.Controller
                 "Standart"
             };
 
-            _unzipper = new ZipWrapper
-            {
-                ExceptionEvent = ExceptionEvent,
-                ExtratingProgressEvent = ExtratingProgressEvent,
-                ChangePackageNameEvent = ChangePackageNameEvent
-            };
+            _unzipper = new ZipWrapper();
         }
 
         public void GetDeployment(Engage engage, string unZipPath, bool isCleanInstallation)
@@ -298,9 +286,6 @@ namespace _8zip.Controller
             string sourceFile = Path.Combine(sourcePath, fileName);
             string destFile = Path.Combine(targetPath, Path.GetFileName(fileName));
             Downloader downloader = new Downloader();
-            downloader.ProgressEvent += OnProgressEvent;
-            downloader.ExceptionEvent += OnRiseExceptionEvent;
-            ChangePackageNameEvent += downloader.ChangePackageNameEvent;
             if (!isCleanInstallation)
             {
                 RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
@@ -341,68 +326,6 @@ namespace _8zip.Controller
                 Directory.CreateDirectory(directory);
             }
             return directory;
-        }
-
-        protected virtual void OnRiseExceptionEvent(object sender, ShowExceptionMessageArks showExceptionMessageArks)
-        {
-            EventHandler<ShowExceptionMessageArks> handler = ExceptionEvent;
-
-            if (handler != null)
-            {
-                handler(this, showExceptionMessageArks);
-            }
-        }
-
-        protected virtual void OnRiseChangePackageNameEvent(UpdatePackageNameArgs updatePackageNameArgs)
-        {
-            EventHandler<UpdatePackageNameArgs> handler = ChangePackageNameEvent;
-
-            if (handler != null)
-            {
-                handler(this, updatePackageNameArgs);
-            }
-            
-        }
-
-        protected virtual void OnRaiseUpdateFormEvent(UpdateFormArgs e)
-        {
-            EventHandler<UpdateFormArgs> handler = UpdateFormEvent;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-
-        }
-
-        internal void OnRaiseExtractProgressEvent(object sender, ExtractProgressEventArgs e)
-        {
-            EventHandler<ExtractProgressEventArgs> handler = ExtratingProgressEvent;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
-        protected void OnProgressEvent(object sender, ProgressEventArgs progressEventArgs)
-        {
-            EventHandler<ProgressEventArgs> handler = ProgressEvent;
-
-            if (handler != null)
-            {
-                handler(this, progressEventArgs);
-            }
-        }
-
-        protected virtual void OnRaiseMaxProgressValueChangedEvent(ChangeMaxProgressValueEventArgs e)
-        {
-            EventHandler<ChangeMaxProgressValueEventArgs> handler = MaxValueChangedEvent;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
         }
     }
 }

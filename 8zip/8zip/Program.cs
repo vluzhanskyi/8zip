@@ -1,7 +1,10 @@
 ﻿using System;
-using System.Net;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
-using _8zip.View;
+using _8zip.Controller;
+using _8zip.CustomEvents;
+using EventHandler = _8zip.Controller.EventHandler;
 using ProgressBar = _8zip.View.ProgressBar;
 
 namespace _8zip
@@ -15,40 +18,88 @@ namespace _8zip
         [STAThread]
         private static void Main(string[] args)
         {
-            //var cred = WindowsIdentity.GetCurrent();
+            string actionType = null;
+            string source = null;
+            string packageDestination = null;
+            string unzipDestination = null;
+            args = new[]
+            {
+                 @"-DU",
+                 @"source = D:\GitFolder\NewRepo\8zip\8zip\8zip\bin\Debug",
+                  @"Packagedestination = D:\Share_Slav\WatsonNew03112016",
+                  @"Unzipdestination = D:\Share_Slav\WatsonNew03112016\Result"
+            };
+            if (args.Any())
+            {
+                foreach (var arg in args)
+                {
+                    try
+                    {
+                        if (arg.Contains("-"))
+                        {
+                            actionType = arg;
+                        }
+                        if (arg.IndexOf("source", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                        {
+                            source = arg.Substring(arg.IndexOf("=", StringComparison.Ordinal) + 1).Replace(" ", "");
+                            Console.WriteLine(source);
+                        }
+                        if (arg.IndexOf("Packagedestination", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                        {
+                            packageDestination = arg.Substring(arg.IndexOf("=", StringComparison.Ordinal) + 1).Replace(" ", "");
+                            Console.WriteLine(packageDestination);
+                        }
+                        if (arg.IndexOf("Unzipdestination", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                        {
+                            unzipDestination = arg.Substring(arg.IndexOf("=", StringComparison.Ordinal) + 1).Replace(" ", "");
+                            Console.WriteLine(unzipDestination);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+                if (actionType != null && (actionType.Contains("-d") || actionType.Contains("-D")))
+                {
+                    try
+                    {
+                        Downloader downloader = new Downloader();
+                        EventHandler.ProgressEvent += PrintProgress;
+                        if (source != null)
+                            foreach (var package in Directory.GetFiles(source, "*.zip"))
+                            {
+                                downloader.DownloadPackage(package, packageDestination + @"\" + Path.GetFileName(package));
+                            }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
 
-            //NetworkCredential credential = new NetworkCredential();
-            //bool haveAccess = false;
-            //DirectoryInfo dir = new DirectoryInfo(@"\\172.28.253.21\build\");
-            //try
-            //{
-            //    var acl = dir.GetAccessControl();
-            //    haveAccess = true;
-            //}
-            //catch (UnauthorizedAccessException uae)
-            //{
-            //    if (uae.Message.Contains("read-only"))
-            //    {
-            //        haveAccess = true;
-            //    }
-            //    else
-            //    {
-            //        haveAccess = false;
-            //    }
-            //}
-
-            //if (!haveAccess)
-            //{
-                
-            //}
-            //credential.UserName = "viacheslavl";
-            //credential.Domain = "nice.com";
-            //credential.Password = "1s4l1a0v5%";
-            //Prompt.PerformSomeActionAsAdmin(credential);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ProgressBar());           
+                    if (actionType.Contains("u") || actionType.Contains("U"))
+                    {
+                        ZipWrapper zip = new ZipWrapper();
+                        if (packageDestination != null)
+                            foreach (var archive in Directory.GetFiles(packageDestination, "*.zip"))
+                            {
+                                zip.ExtractFilesFromZip(archive, unzipDestination);
+                            }
+                    }
+                }
+            }
+            else
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new ProgressBar());      
+            }
+     
         }
-       
+
+        private static void PrintProgress(object sender, ProgressEventArgs e)
+        {
+                Console.Write(e.Progress);
+        }
     }
 }

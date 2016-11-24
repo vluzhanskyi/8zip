@@ -9,7 +9,7 @@ using _8zip.View;
 
 namespace _8zip.Controller
 {
-    public class ZipWrapper : Processor
+    public class ZipWrapper : EventHandler
     {
         internal ZipWrapper()
         {
