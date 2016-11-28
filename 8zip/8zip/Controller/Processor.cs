@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Ionic.Zip;
 using _8zip.CustomEvents;
 using _8zip.Sources;
 using _8zip.View;

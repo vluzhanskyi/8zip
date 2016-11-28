@@ -214,7 +214,7 @@ namespace _8zip.View
                     CurrentProgressBar.Value = CurrentProgressBar.Maximum;       
                 }
 
-                if (!e.Name.Contains("NDM")) return;
+                if (!string.IsNullOrEmpty(e.Name) && !e.Name.Contains("NDM")) return;
                 _unZipPath = e.UnzipPath;
                 linkLabel1.Text = GetStringToShow(e.UnzipPath);
             };
