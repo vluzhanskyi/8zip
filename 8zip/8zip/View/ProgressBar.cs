@@ -231,13 +231,13 @@ namespace _8zip.View
 
         private static string GetStringToShow(string s)
         {
-            if (s != null && s.Length > 65)
+            if (s != null && s.Length > 95)
             {
 
-                int index = s.Length - 65;
-                string res = s.Insert(s.Length - index, "\n");
+                int index = s.Length - 95;
+                string res = s.Insert(95, "\n");
                 string substring = res.Substring(res.IndexOf("\n", StringComparison.Ordinal) + 2);
-                if (substring.Length > 65)
+                if (substring.Length > 95)
                 {
                     res = string.Format("...{0}", GetStringToShow(substring));
                 }
