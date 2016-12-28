@@ -214,9 +214,12 @@ namespace _8zip.View
                     CurrentProgressBar.Value = CurrentProgressBar.Maximum;       
                 }
 
-                if (!string.IsNullOrEmpty(e.Name) && !e.Name.Contains("NDM")) return;
-                _unZipPath = e.UnzipPath;
-                linkLabel1.Text = GetStringToShow(e.UnzipPath);
+                if (!string.IsNullOrEmpty(e.Name) && e.Name.Contains("NDM-6"))
+                {
+                    _unZipPath = e.UnzipPath;
+                    linkLabel1.Text = GetStringToShow(e.UnzipPath);
+                }                 
+                
             };
             label1.Invoke(action);
         }
@@ -231,17 +234,21 @@ namespace _8zip.View
 
         private static string GetStringToShow(string s)
         {
-            if (s != null && s.Length > 95)
+            if (s != null && s.Length > 125)
             {
 
-                int index = s.Length - 95;
-                string res = s.Insert(95, "\n");
+               // int index = s.Length - 125;
+                string res = s.Insert(125, "\n");
                 string substring = res.Substring(res.IndexOf("\n", StringComparison.Ordinal) + 2);
-                if (substring.Length > 95)
+                if (substring.Length > 125)
                 {
                     res = string.Format("...{0}", GetStringToShow(substring));
                 }
-                return res;
+                return res.Insert(res.Length, "\n");
+            }
+            if (s != null)
+            {
+                s = s.Insert(s.Length, "\n");
             }
             return s;
         }

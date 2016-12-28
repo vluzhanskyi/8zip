@@ -23,7 +23,7 @@ namespace _8zip.Controller
             {
                 "AIR",
                 "Applications",
-                "CTI",
+                "CTI ",
                 "Data Mart",
                 "Database",
                 "Interactions Center",
@@ -39,7 +39,8 @@ namespace _8zip.Controller
                 "Authentication Agent",
                 "Authentication Spotlight",
                 "Engage Search",
-                "BUS"
+                "BUS",
+                "Stream"
             };
 
             NotUsedPackagesList = new List<string>
@@ -285,6 +286,7 @@ namespace _8zip.Controller
             string sourceFile = Path.Combine(sourcePath, fileName);
             string destFile = Path.Combine(targetPath, Path.GetFileName(fileName));
             Downloader downloader = new Downloader();
+            var f = new FileInfo(sourceFile);
             if (!isCleanInstallation)
             {
                 RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
@@ -294,7 +296,8 @@ namespace _8zip.Controller
             {
                 foreach (var package in RecPackagesList)
                 {
-                    if (sourceFile.Contains(package))
+                    if (sourceFile.IndexOf(package, StringComparison.InvariantCultureIgnoreCase) >= 0
+                        && NotUsedPackagesList.All(p => !sourceFile.Contains(p)) && f.Length >= MinimalFileSize)
                     {
                         downloader.DownloadPackage(sourceFile, destFile);
                     }
@@ -303,8 +306,6 @@ namespace _8zip.Controller
 
             else
             {
-                var f = new FileInfo(sourceFile);
-
                 var isApproved =
                     NotUsedPackagesList.All(package => !sourceFile.Contains(package) && f.Length >= MinimalFileSize);
 

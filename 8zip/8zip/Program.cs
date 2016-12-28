@@ -24,8 +24,8 @@ namespace _8zip
             string unzipDestination = null;
             //args = new[]
             //{
-            //     @"-UR",
-            //     @"source = D:\GitFolder\NewRepo\8zip\8zip\8zip\bin\Debug",
+            //     @"-UDR",
+            //     @"source = D:\GitFolder\NewRepo\8zip\8zip\8zip\bin\Debug\Debug.zip",
             //      @"Packagedestination = D:\Share_Slav\WatsonNew03112016",
             //      @"Unzipdestination = D:\Share_Slav\WatsonNew03112016\Result"
             //};
@@ -66,11 +66,22 @@ namespace _8zip
                     {
                         Downloader downloader = new Downloader();
                         EventHandler.ProgressEvent += PrintProgress;
+                        FileAttributes attr = File.GetAttributes(source);
                         if (source != null)
-                            foreach (var package in Directory.GetFiles(source, "*.zip"))
+                        {
+                            if (attr.HasFlag(FileAttributes.Directory))
                             {
-                                downloader.DownloadPackage(package, packageDestination + @"\" + Path.GetFileName(package));
+                                foreach (var package in Directory.GetFiles(source, "*.zip"))
+                                {
+                                    downloader.DownloadPackage(package, packageDestination + @"\" + Path.GetFileName(package));
+                                }
                             }
+                            else
+                            {
+                                downloader.DownloadPackage(source, packageDestination + @"\" + Path.GetFileName(source));
+                            }
+                        }
+                            
                     }
                     catch (Exception e)
                     {
