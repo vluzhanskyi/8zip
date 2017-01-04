@@ -47,14 +47,14 @@ namespace _8zip.Sources
             }
             else if (Math.Abs(engage.Version - 6.6) < Epsilon && engage.Buildversion != null)
             {
-                var sources = Directory.GetDirectories(PacManconfigs.DailyUPsFolder, string.Format("Daily_{0}*", engage.Buildversion));
-                var sharedCsources = Directory.GetDirectories(PacManconfigs.SharedCSource, string.Format("Daily_{0}*", engage.SharedBuild));
+                var sources = Directory.GetDirectories(PacManconfigs.DailyUPsFolder, string.Format("*{0}*", engage.Buildversion));
+                var sharedCsources = Directory.GetDirectories(PacManconfigs.SharedCSource, string.Format("*{0}*", engage.SharedBuild));
                 var splashCSources = Directory.GetDirectories(PacManconfigs.SlashCSource,
-                    String.Format("Daily_{0}*", engage.SplashBuild));
+                    String.Format("*{0}*", engage.SplashBuild));
                 var miniBusSources = Directory.GetDirectories(PacManconfigs.MiniBusSource,
-                    string.Format("Daily_{0}*", engage.MiniBusBuild));
+                    string.Format("*{0}*", engage.MiniBusBuild));
                 var ncaSources = Directory.GetDirectories(PacManconfigs.NcaBuildSource,
-                    string.Format("Daily_{0}*", engage.NcaBuildVersion));
+                    string.Format("*{0}*", engage.NcaBuildVersion));
                 if (engage.Buildversion != String.Empty && sources.Length > 0)
                 {
                     source[0] = string.Format(@"{0}\NPS_Deployment\Packages", sources[sources.Length - 1]);
