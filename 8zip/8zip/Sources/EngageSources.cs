@@ -34,10 +34,20 @@ namespace _8zip.Sources
                 if (engage.SpVersion == 0)
                 {
                     var servicePacks = Directory.GetDirectories(PacManconfigs.OfficialSpSource, "ServicePack*");
-                    var sPs = servicePacks.Where(sp => Directory.GetFiles(string.Format(@"{0}\Engage", sp), "*.zip").Length != 0).ToList();
-                    source[2] = string.Format(@"{0}\Engage", GetPreLastItem(servicePacks, 2));
-                    if (Directory.GetFiles(source[2], "*.zip").Length == 0)
-                        source[2] = string.Format(@"{0}\Engage", GetPreLastItem(sPs, 2, true));
+                    var sPs = servicePacks.Where(sp => Directory.GetFiles(string.Format(@"{0}\", sp), "*.zip").Length != 0).ToList();
+                    source[2] = string.Format(@"{0}", GetPreLastItem(servicePacks, 2));
+                   // var test = Directory.GetDirectories(source[2]);
+                    if (Directory.GetDirectories(source[2]).Any(e => e.Contains("ServicePack_Testing")))
+                    {
+                        source[2] = string.Format(@"{0}\Engage\ServicePack_Testing", GetPreLastItem(servicePacks, 2));
+                    }
+                    else
+                    {
+                        source[2] = string.Format(@"{0}", GetPreLastItem(servicePacks, 2));
+                    }
+                    if (!Directory.GetFiles(source[2], "*.zip").Any() &&
+                        !Directory.GetDirectories(source[2]).Any(e => Directory.GetFiles(e, "*.zip").Any()))
+                        source[2] = string.Format(@"{0}", GetPreLastItem(sPs, 2, true));
                 }
                 else
                 {
@@ -110,21 +120,25 @@ namespace _8zip.Sources
         private string GetPreLastItem(IEnumerable<string> spStrings, int index, bool isLast = false)
         {
             var spDict = new Dictionary<int, string>();
-            foreach (var s in spStrings)
+            var enumerable = spStrings as string[] ?? spStrings.ToArray();
+            if (enumerable.LongCount() > 1)
             {
-                int r;
-                if (s.Contains(".zip"))
+                foreach (var s in enumerable)
                 {
-                    var temp = s.Replace(s.Substring(s.LastIndexOf(".", StringComparison.Ordinal)), "");
-                    int.TryParse(temp.Substring(temp.Length - index), out r);
-                    spDict.Add(r, s);
-                }
-                else
-                {
-                    int.TryParse(s.Substring(s.Length - index), out r);
-                    spDict.Add(r, s);
-                }
+                    int r;
+                    if (s.Contains(".zip"))
+                    {
+                        var temp = s.Replace(s.Substring(s.LastIndexOf(".", StringComparison.Ordinal)), "");
+                        int.TryParse(temp.Substring(temp.Length - index), out r);
+                        spDict.Add(r, s);
+                    }
+                    else
+                    {
+                        int.TryParse(s.Substring(s.Length - index), out r);
+                        spDict.Add(r, s);
+                    }
 
+                }
             }
 
             var spList = spDict.Keys.ToList();

@@ -30,17 +30,19 @@ namespace _8zip.Controller
                 "Logger",
                 "Storage",
                 "KAI",
-                "SQLAutoSetup2014_Enertprise",
-                "Reporter",
+                "SQL Auto Setup Ent 2014",
+                "Reporter and Link Analysis",
                 "xml",
                 "NDM",
                 "SRT",
                 "SP",
+                "ReporterNTP",
                 "Authentication Agent",
                 "Authentication Spotlight",
                 "Engage Search",
                 "BUS",
-                "Stream"
+                "Stream",
+                "Connect API"
             };
 
             NotUsedPackagesList = new List<string>
@@ -64,7 +66,6 @@ namespace _8zip.Controller
                 "Chinese",
                 "Biometrics",
                 "2012",
-                "Standart"
             };
 
             _unzipper = new ZipWrapper();
@@ -225,7 +226,7 @@ namespace _8zip.Controller
         public void GetServicePack(Engage engage, string unZipPath)
         {
             OnRaiseUpdateFormEvent(new UpdateFormArgs(false));
-            var maxProgressValue = 1;
+            var maxProgressValue = 0;
             int i = 0;
             int j = 0;
             var worker = new BackgroundWorker();
@@ -234,7 +235,7 @@ namespace _8zip.Controller
                 OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Empty, Actions.Initialization,
                     string.Empty, unZipPath));
                 var sources = new EngageSources(engage);
-                var sps = Directory.GetFiles(sources.SpSourcePath, "*.zip");
+                var sps = Directory.GetFiles(sources.SpSourcePath, "*.zip", SearchOption.AllDirectories);
                 var backgroundWorker = worker1 as BackgroundWorker;
                 if (backgroundWorker != null)
                 {
@@ -249,12 +250,15 @@ namespace _8zip.Controller
                 {
                     j++;
                     i++;
-                    OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
+                    foreach (var item in sps)
+                    {
+                        OnRiseChangePackageNameEvent(new UpdatePackageNameArgs(String.Format("{0}/{1}", j, i),
                         Actions.Downloading,
-                        Path.GetFileNameWithoutExtension(sps[0]), unZipPath));
-                    var spDirectory = GetFolderToWork(unZipPath, "ServicePacks");
-                    GetPackages(sources.SpSourcePath, spDirectory, sps[0]);
-                    OnProgressEvent(new object(), new ProgressEventArgs(1, false));
+                        Path.GetFileNameWithoutExtension(item), unZipPath));
+                        var spDirectory = GetFolderToWork(unZipPath, "ServicePacks");
+                        GetPackages(sources.SpSourcePath, spDirectory, item);
+                        OnProgressEvent(new object(), new ProgressEventArgs(1, false));
+                    }
                 }
 
             };
@@ -289,7 +293,7 @@ namespace _8zip.Controller
             var f = new FileInfo(sourceFile);
             if (!isCleanInstallation)
             {
-                RecPackagesList.Remove("SQLAutoSetup2014_Enertprise");
+                RecPackagesList.Remove("SQL Auto Setup Ent 2014");
                 NotUsedPackagesList.Add("SQLAutoSetup");
             }
             if (isRecOnly)
@@ -297,7 +301,8 @@ namespace _8zip.Controller
                 foreach (var package in RecPackagesList)
                 {
                     if (sourceFile.IndexOf(package, StringComparison.InvariantCultureIgnoreCase) >= 0
-                        && NotUsedPackagesList.All(p => !sourceFile.Contains(p)) && f.Length >= MinimalFileSize)
+                        && NotUsedPackagesList.All(p => !sourceFile.Contains(p))
+                        && f.Length >= MinimalFileSize)
                     {
                         downloader.DownloadPackage(sourceFile, destFile);
                     }
