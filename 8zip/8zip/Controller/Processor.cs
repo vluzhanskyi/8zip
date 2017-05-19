@@ -71,6 +71,15 @@ namespace _8zip.Controller
             _unzipper = new ZipWrapper();
         }
 
+        public List<string> GetAllPackages(Engage engage, string unZipPath)
+        {
+            var sources = new EngageSources(engage);
+            var xmls = sources.XmlList;
+            var packages = sources.Packages;
+            var directory = GetFolderToWork(unZipPath, "Packages");
+            return packages;
+        }
+
         public void GetDeployment(Engage engage, string unZipPath, bool isCleanInstallation)
         {
             
@@ -133,6 +142,12 @@ namespace _8zip.Controller
             };
             worker.RunWorkerAsync();
         }
+
+        internal void GetEngagePackages(List<string> checkedPackages)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void GetEngagePackages(Engage engage, string unZipPath, bool isRecOnly, bool isCleanInstallation)
         {

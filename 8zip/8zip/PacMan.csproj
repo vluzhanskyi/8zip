@@ -60,10 +60,12 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Downloader.cs" />
@@ -80,6 +82,12 @@
     <Compile Include="Sources\PacManconfigs.cs" />
     <Compile Include="Controller\Processor.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="View\CustomSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CustomSelectionForm.Designer.cs">
+      <DependentUpon>CustomSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProgressBar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +104,9 @@
     <Compile Include="Controller\ZipWrapper.cs" />
     <EmbeddedResource Include="View\BuildForm.resx">
       <DependentUpon>BuildForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CustomSelectionForm.resx">
+      <DependentUpon>CustomSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProgressBar.resx">
       <DependentUpon>ProgressBar.cs</DependentUpon>

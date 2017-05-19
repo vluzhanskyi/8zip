@@ -8,6 +8,7 @@ using _8zip.CustomEvents;
 using _8zip.Properties;
 using _8zip.Sources;
 using EventHandler = _8zip.Controller.EventHandler;
+using System.Collections.Generic;
 
 namespace _8zip.View
 {
@@ -55,6 +56,16 @@ namespace _8zip.View
                 var engage = new Engage(6.5, null, null, null, null, null, withHotFixes.Checked);
                 var build = new BuildForm(false, true, true);
                 var result = build.ShowDialog();
+                if (build.IsCustomPackages)
+                {
+                    List<string> packages = _processor.GetAllPackages(engage, _unZipPath);
+                    var customForm = new CustomSelectionForm(packages);
+                    var res = customForm.ShowDialog();
+                    if (res == DialogResult.OK)
+                    {
+                        _processor.GetEngagePackages(customForm.CheckedPackages);
+                    }
+                }
                 if (result == DialogResult.OK)
                 {
                     _processor.GetEngagePackages(engage, _unZipPath, build.IsRecOnly, build.IsCleanInstallation);    

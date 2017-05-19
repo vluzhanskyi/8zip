@@ -42,6 +42,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.NCABuildVersionTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.IsCustomCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -154,6 +155,17 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Enter the NCA build number (ex: 6.6.0001.260):";
             // 
+            // IsCustomCheckBox
+            // 
+            this.IsCustomCheckBox.AutoSize = true;
+            this.IsCustomCheckBox.Location = new System.Drawing.Point(165, 267);
+            this.IsCustomCheckBox.Name = "IsCustomCheckBox";
+            this.IsCustomCheckBox.Size = new System.Drawing.Size(69, 17);
+            this.IsCustomCheckBox.TabIndex = 12;
+            this.IsCustomCheckBox.Text = "IsCustom";
+            this.IsCustomCheckBox.UseVisualStyleBackColor = true;
+            this.IsCustomCheckBox.CheckedChanged += new System.EventHandler(this.CbIsCustom_CheckedChanged);
+            // 
             // BuildForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -161,6 +173,7 @@
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(323, 296);
+            this.Controls.Add(this.IsCustomCheckBox);
             this.Controls.Add(this.NCABuildVersionTextBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.SplashTextBox);
@@ -201,5 +214,6 @@
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.TextBox NCABuildVersionTextBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox IsCustomCheckBox;
     }
 }

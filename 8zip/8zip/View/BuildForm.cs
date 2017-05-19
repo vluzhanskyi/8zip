@@ -8,6 +8,7 @@ namespace _8zip.View
     {
         public bool IsRecOnly;
         public bool IsCleanInstallation;
+        public bool IsCustomPackages;
         public string BuildVersion { set; get; }
         public string MiniBusBuildVersion { set; get; }
         public string SplashBuildVersion { set; get; }
@@ -49,9 +50,15 @@ namespace _8zip.View
             NcaBuildVersion = NCABuildVersionTextBox.Text;
             IsRecOnly = IsRecOnlyCheckBox.Checked;
             IsCleanInstallation = IsCleanCheckBox.Checked;
+            IsCustomPackages = IsCustomCheckBox.Checked;
             ProgressBar.BuildVersion = BuildVersion;
-            Close();           
+            Close();
         }
-    
+
+        private void CbIsCustom_CheckedChanged(object sender, EventArgs e)
+        {
+            IsRecOnlyCheckBox.Enabled = !IsCustomCheckBox.Checked;
+            IsCleanCheckBox.Enabled = !IsCustomCheckBox.Checked;
+        }
     }
 }
